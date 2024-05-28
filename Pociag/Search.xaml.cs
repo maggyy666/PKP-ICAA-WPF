@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization.Metadata;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Pociag
 {
@@ -26,10 +18,11 @@ namespace Pociag
         public Search()
         {
             InitializeComponent();
-            Cities = new string[] { "Warszawa", "Kraków", "Wrocław", "Poznań", "Gdańsk", "Gdynia", "Rzeszów", "Opole" };
+            Cities = new string[] { "Warsaw", "Kraków", "Wrocław", "Poznań", "Gdańsk", "Gdynia", "Rzeszów", "Opole" };
             Status = new string[] { "Adult", "Child", "Student", "Disabled", "Retired" };
             DataContext = this;
 
+            //_travelService = new JsonMetadataServices<Travel>("JSON/travels.json");
 
         }
         private void Window_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -54,35 +47,31 @@ namespace Pociag
             }
             //Window.GetWindow(this).Close();
         }
-        private void PowrotButton_Click(object sender, RoutedEventArgs e)
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             Close();
         }
-        public void ZapiszButton_Click(object sender, RoutedEventArgs e)
+        public void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            DateTime? wybranaData = Kalendarz.SelectedDate;
-            if (wybranaData != null)
+            DateTime? selectedDate = _Calendar.SelectedDate;
+            if (selectedDate != null)
             {
-                // konwertujemy wartość na format string
-                string data = wybranaData.Value.ToString("yyyy-MM-dd");
+                string data = selectedDate.Value.ToString("yyyy-MM-dd");
 
-                // pobieramy wartości wybrane w ComboBoxach
-                string poczatek = Poczatek.SelectedItem.ToString();
-                string koniec = Koniec.SelectedItem.ToString();
-                string status1 = Statusek.SelectedItem.ToString();
+                string beginning = Beginning.SelectedItem.ToString();
+                string final = Final.SelectedItem.ToString();
+                string _status = _Status.SelectedItem.ToString();
 
-                if (string.IsNullOrEmpty(poczatek) || string.IsNullOrEmpty(koniec) || string.IsNullOrEmpty(status1))
+                if (string.IsNullOrEmpty(beginning) || string.IsNullOrEmpty(final) || string.IsNullOrEmpty(_status))
                 {
                     MessageBox.Show("Nie wybrano wszystkich pól!");
                     return;
                 }
 
-                // tworzymy ciąg tekstowy do zapisania
-                string dane = poczatek + ";" + koniec + ";" + status1 + ";" + data + Environment.NewLine;
+                string dane = beginning + ";" + final + ";" + _status + ";" + data + Environment.NewLine;
 
-                // zapisujemy dane do pliku
                 if (!File.Exists("Podroz.txt"))
                 {
                     File.WriteAllText("Podroz.txt", dane);
@@ -98,7 +87,7 @@ namespace Pociag
             }
 
         }
-        private void WczytajButton_Click(object sender, RoutedEventArgs e)
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -108,14 +97,14 @@ namespace Pociag
                     string[] data = lines[lines.Length - 1].Split(';');
                     if (data.Length == 4)
                     {
-                        Poczatek.SelectedItem = data[0];
-                        Koniec.SelectedItem = data[1];
-                        Statusek.SelectedItem = data[2];
+                        Beginning.SelectedItem = data[0];
+                        Final.SelectedItem = data[1];
+                        _Status.SelectedItem = data[2];
 
                         DateTime date;
                         if (DateTime.TryParse(data[3], out date))
                         {
-                            Kalendarz.SelectedDate = date;
+                           _Calendar.SelectedDate = date;
                         }
                     }
                 }
@@ -125,64 +114,62 @@ namespace Pociag
                 MessageBox.Show("Nie znaleziono pliku Podroz.txt");
             }
         }
-        private void ObliczButton_Click(object sender, RoutedEventArgs e)
+        private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            string miastoPoczatkowe = (string)Poczatek.SelectedValue;
-            string miastoKoncowe = (string)Koniec.SelectedValue;
-            string status = (string)Statusek.SelectedValue;
+            string startingCity = (string)Beginning.SelectedValue;
+            string finalCity = (string)Final.SelectedValue;
+            string status = (string)_Status.SelectedValue;
 
-            double cena = 0;
+            double price = 0;
 
-            // Wczytanie cennika z pliku tekstowego
-            Dictionary<string, Dictionary<string, int>> cennik = new Dictionary<string, Dictionary<string, int>>();
-            string[] linieCennika = File.ReadAllLines("Cennik.txt");
-            foreach (string linia in linieCennika)
+            Dictionary<string, Dictionary<string, int>> pricelist = new Dictionary<string, Dictionary<string, int>>();
+            string[] pricelistLines = File.ReadAllLines("Cennik.txt");
+            foreach (string line in pricelistLines)
             {
-                string[] pola = linia.Split('-');
-                string miasto1 = pola[0];
-                string[] pola2 = pola[1].Split(':');
-                string miasto2 = pola2[0];
-                int cenaBiletu = int.Parse(pola2[1]);
+                string[] field = line.Split('-');
+                string city1 = field[0];
+                string[] field2 = field[1].Split(':');
+                string city2 = field2[0];
+                int ticketPrice = int.Parse(field2[1]);
 
-                if (!cennik.ContainsKey(miasto1))
+                if (!pricelist.ContainsKey(city1))
                 {
-                    cennik[miasto1] = new Dictionary<string, int>();
+                    pricelist[city1] = new Dictionary<string, int>();
                 }
-                cennik[miasto1][miasto2] = cenaBiletu;
+                pricelist[city1][city2] = ticketPrice;
             }
 
-            // Wyliczenie ceny biletu na podstawie wybranych danych i cennika
-            if (cennik.ContainsKey(miastoPoczatkowe) && cennik[miastoPoczatkowe].ContainsKey(miastoKoncowe))
+            if (pricelist.ContainsKey(startingCity) && pricelist[startingCity].ContainsKey(finalCity))
             {
-                cena = cennik[miastoPoczatkowe][miastoKoncowe];
+                price = pricelist[startingCity][finalCity];
             }
             else
             {
-                MessageBox.Show("Nie ma połączenia między podanymi miastami w cenniku!");
+                MessageBox.Show("There is no connection between the cities listed in the price list!");
                 return;
             }
 
             switch (status)
             {
-                case "Osoba dorosła":
+                case "Adult":
                     break;
-                case "Dziecko":
-                    cena = cena * 0.3;
+                case "Child":
+                    price = price * 0.3;
                     break;
                 case "Student":
-                    cena = cena * 0.50;
-                        break;
-                case "Osoba niepełnosprawna":
-                    cena = cena * 0.4;
+                    price = price * 0.50;
                     break;
-                case "Emeryt":
-                    cena = cena * 0.6;
+                case "Disabled person":
+                    price = price * 0.4;
+                    break;
+                case "Pensioner":
+                    price = price * 0.6;
                     break;
                 default:
                     break;
             }
 
-            MessageBox.Show($"Cena biletu: {cena} zł");
+            MessageBox.Show($"Ticket price: PLN {price}");
         }
 
         
