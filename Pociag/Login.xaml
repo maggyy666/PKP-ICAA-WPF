@@ -27,7 +27,7 @@
                 </Border.Background>
             </Border>
             <StackPanel VerticalAlignment="Center">
-                    <Image Source="Grafika/pociag1.png" Width="120"></Image>
+                    <Image Source="Images/pociag1.png" Width="120"></Image>
                     <TextBlock Text="PKP ICAA"
                                FontWeight="Light" 
                                FontFamily="helvetica"
@@ -83,13 +83,13 @@
                         Opacity="0.5"/>
 
                 <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
-                    <Button Width="100"  FontFamily="Czcionka/#Dosis" Height="40" Content="ZALOGUJ" Margin="60,0,60,0" Click="Logowanie"/>
-                    <Button Width="100" FontFamily="Czcionka/#Dosis" Height="40" Content="REJESTRACJA"
+                    <Button Width="100"  FontFamily="Czcionka/#Dosis" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="Logowanie"/>
+                    <Button Width="100" FontFamily="Czcionka/#Dosis" Height="40" Content="REGISTER"
                             Click="Rejestracja"/>
 
                 </StackPanel>
                 <StackPanel>
-                    <Button Width="100" FontFamily="Czcionka/#Dosis" Height="40" Content="POWRÓT" Margin="10"
+                    <Button Width="100" FontFamily="Czcionka/#Dosis" Height="40" Content="BACK" Margin="10"
                             Click="CloseButton_Click"/>
 
                 </StackPanel>

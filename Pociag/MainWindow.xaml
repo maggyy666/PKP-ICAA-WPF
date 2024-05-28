@@ -60,7 +60,7 @@
                        Grid.Column="1"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                       FontFamily="Czcionka/#Dosis"
+                       FontFamily="Font/#Dosis"
                        FontWeight="Medium" Height="16" Width="44">
 
 
@@ -77,7 +77,7 @@
                     Click="CreditsButton_Click">
                 <Button.Style>
                     <Style TargetType="Button">
-                        <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis">
+                        <Setter Property="TextElement.FontFamily" Value="Font/#Dosis">
                         </Setter>
                         <Setter Property="Background" Value="#FE6584"></Setter>
                         <Setter Property="Cursor" Value="Hand"></Setter>
@@ -122,7 +122,7 @@
                     Click="CloseButton_Click">
                 <Button.Style>
                     <Style TargetType="Button">
-                        <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis">
+                        <Setter Property="TextElement.FontFamily" Value="Font/#Dosis">
                         </Setter>
                         <Setter Property="Background" Value="#FE6584"></Setter>
                         <Setter Property="Cursor" Value="Hand"></Setter>
@@ -171,7 +171,7 @@
                 
                 <Image x:Name="LogoImg"
                     Width="100" Height="100"
-                       Source="/Grafika/pociag1.png"
+                       Source="/Images/pociag1.png"
                        RenderOptions.BitmapScalingMode="Fant"></Image>
                 <TextBlock Text="PKP ICAA"
                            x:Name="Logo"
@@ -179,7 +179,7 @@
                            FontSize="40"
                            FontWeight="Medium"
                            VerticalAlignment="Center"
-                           FontFamily="Czcionka/#Dosis"
+                           FontFamily="Font/#Dosis"
                            Margin="10,0,0,0">
 
 
@@ -189,32 +189,32 @@
 
 
             <StackPanel x:Name="Description">
-                <TextBlock Text="Twój niezawodny"
+                <TextBlock Text="Your reliable"
                        Foreground="White"
                        FontSize="25"
                        FontWeight="Medium"
-                       FontFamily="Czcionka/#Dosis">
+                       FontFamily="Font/#Dosis">
 
                 </TextBlock>
-                <TextBlock Text="Wybór"
+                <TextBlock Text="Travel"
                        Foreground="White"
                        FontSize="25"
                        FontWeight="Medium"
-                       FontFamily="Czcionka/#Dosis">
+                       FontFamily="Font/#Dosis">
 
                 </TextBlock>
-                <TextBlock Text="Środka podróży"
+                <TextBlock Text="Choice"
                        Foreground="White"
                        FontSize="25"
                        FontWeight="Medium"
-                       FontFamily="Czcionka/#Dosis">
+                       FontFamily="Font/#Dosis">
 
                 </TextBlock>
-                <TextBlock Text="Pomagamy Wam w codziennych podróżach, abyście mogli zmieniać świat razem z nami."
+                <TextBlock Text="We help you in your everyday journeys so that you can change the world with us."
                        Foreground="White"
                        FontSize="12"
                        FontWeight="Medium"
-                       FontFamily="Czcionka/#Dosis"
+                       FontFamily="Font/#Dosis"
                        TextWrapping="Wrap"
                            Margin="0,10,0,0">
 
@@ -230,7 +230,7 @@
                         Click="StartButton_Click">
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis">
+                            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis">
                             </Setter>
                             <Setter Property="Background" Value="#FE6584"></Setter>
                             <Setter Property="Cursor" Value="Hand"></Setter>
@@ -263,7 +263,7 @@
                 </Button>
 
 
-                <Button Content="Zarejestruj się!"
+                <Button Content="Join Us!"
                         x:Name="Register"
                         Foreground="White"
                         FontSize="14"
@@ -276,7 +276,7 @@
 
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis">
+                            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis">
                             </Setter>
                             <Setter Property="Background" Value="#39385D"></Setter>
                             <Setter Property="Cursor" Value="Hand"></Setter>

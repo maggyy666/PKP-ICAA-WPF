@@ -60,7 +60,7 @@
                        Grid.Column="1"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                       FontFamily="Czcionka/#Dosis"
+                       FontFamily="Font/#Dosis"
                        FontWeight="Medium" Height="16" Width="44">
 
 
@@ -70,7 +70,7 @@
 
 
 
-            <Button Content="Wyjdź"
+            <Button Content="Exit"
                         Foreground="White"
                         FontSize="10"
                         FontWeight="Medium"
@@ -80,7 +80,7 @@
                     Click="CloseButton_Click">
                 <Button.Style>
                     <Style TargetType="Button">
-                        <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis">
+                        <Setter Property="TextElement.FontFamily" Value="Font/#Dosis">
                         </Setter>
                         <Setter Property="Background" Value="#FE6584"></Setter>
                         <Setter Property="Cursor" Value="Hand"></Setter>
@@ -118,35 +118,35 @@
 
         </Grid>
         <StackPanel Grid.Row="1"
-                    VerticalAlignment="Top" Margin="14,12,320,0" Height="40">
-            <TextBlock Text="Rozkład"
-                       Width="114"
+                    VerticalAlignment="Top" Margin="14,12,320,0" Height="45">
+            <TextBlock Text="Railway"
+                       Width="112"
                        FontSize="35"
                        Foreground="White"
-                       FontFamily="Czcionka/#Dosis"
-                       FontWeight="Bold" Height="43"/>
+                       FontFamily="Font/#Dosis"
+                       FontWeight="Bold" Height="55" RenderTransformOrigin="0.504,0.617"/>
 
         </StackPanel>
         <StackPanel Grid.Row="1" 
                     VerticalAlignment="Top"
-                    Margin="137,11,45,0"
+                    Margin="137,11,0,0"
                     Height="44">
-            <TextBlock Text="jazdy PKP i bilety"
-                       FontSize="35" Width="265"
+            <TextBlock Text="timetable and tickets"
+                       FontSize="35" Width="311"
                        Foreground="White"
-                       FontFamily="Czcionka/#Dosis"
+                       FontFamily="Font/#Dosis"
                        FontWeight="Medium"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1"
                     VerticalAlignment="Top" Margin="14,77,394,0" Height="38">
-            <Image Source="Grafika/Z.png"/>
+            <Image Source="Images/Z.png"/>
 
         </StackPanel>
 
         <StackPanel Grid.Row="1"
                     VerticalAlignment="Top" Margin="14,120,394,0" Height="38">
-            <Image Source="Grafika/DO.png"/>
+            <Image Source="Images/DO.png"/>
 
         </StackPanel>
 
@@ -157,7 +157,7 @@
             <TextBlock Text="Z:"
                        FontSize="25" Width="18"
                        Foreground="White"
-                       FontFamily="Czcionka/#Dosis"
+                       FontFamily="Font/#Dosis"
                        FontWeight="Medium"/>
         </StackPanel>
 
@@ -179,19 +179,19 @@
 
         <StackPanel Grid.Row="1" 
                     VerticalAlignment="Center"
-                    Margin="12,0,364,0"
+                    Margin="12,0,290,0"
                     Height="52">
-            <TextBlock Text="Data"
-                        Width="68"
+            <TextBlock Text="Departure"
+                        Width="147"
                        FontSize="35"
                        Foreground="White"
-                       FontFamily="Czcionka/#Dosis"
+                       FontFamily="Font/#Dosis"
                        FontWeight="Bold" Height="51"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1"
                     VerticalAlignment="Top" Margin="14,120,394,0" Height="38">
-            <Image Source="Grafika/DO.png"/>
+            <Image Source="Images/DO.png"/>
 
         </StackPanel>
 
@@ -199,11 +199,11 @@
                     VerticalAlignment="Top"
                     Margin="50,250,323,0"
                     Height="32">
-            <TextBlock Text="odjazdu:"
+            <TextBlock Text="date:"
                         Width="68"
                        FontSize="20"
                        Foreground="White"
-                       FontFamily="Czcionka/#Dosis"
+                       FontFamily="Font/#Dosis"
                        FontWeight="Medium" Height="26"/>
         </StackPanel>
 
@@ -221,36 +221,36 @@
                     VerticalAlignment="Top"
                     Margin="14,327,344,0"
                     Height="40">
-            <TextBlock Text="Rodzaj"
-                        Width="86"
+            <TextBlock Text="Type of"
+                        Width="92"
                        FontSize="30"
                        Foreground="White"
-                       FontFamily="Czcionka/#Dosis"
+                       FontFamily="Font/#Dosis"
                        FontWeight="Bold" Height="40"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1"
                     VerticalAlignment="Top" Margin="10,359,398,0" Height="38">
-            <Image Source="Grafika/ticket.png"/>
+            <Image Source="Images/ticket.png" Height="35"/>
 
         </StackPanel>
 
         <StackPanel Grid.Row="1"
                     VerticalAlignment="Top" Margin="10,245,398,0" Height="38">
-            <Image Source="Grafika/calendar.png"/>
+            <Image Source="Images/calendar.png"/>
 
         </StackPanel>
 
 
         <StackPanel Grid.Row="1" 
                     VerticalAlignment="Top"
-                    Margin="50,361,335,0"
+                    Margin="50,361,329,0"
                     Height="33">
-            <TextBlock Text="zniżki:"
-                        Width="50"
+            <TextBlock Text="discount:"
+                        Width="71"
                        FontSize="20"
                        Foreground="White"
-                       FontFamily="Czcionka/#Dosis"
+                       FontFamily="Font/#Dosis"
                        FontWeight="Medium" Height="26"/>
         </StackPanel>
 
@@ -272,7 +272,7 @@
                         Margin="0,15,0,0" Width="529">
 
 
-                <Button Content="Zapisz"
+                <Button Content="Save"
                         x:Name="Register"
                         Foreground="White"
                         FontSize="14"
@@ -285,7 +285,7 @@
 
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis">
+                            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis">
                             </Setter>
                             <Setter Property="Background" Value="#39385D"></Setter>
                             <Setter Property="Cursor" Value="Hand"></Setter>
@@ -316,7 +316,7 @@
 
 
                 </Button>
-                <Button Content="Oblicz cenę"
+                <Button Content="Calculate price"
                     x:Name="Register_Copy"
                     Foreground="White"
                     FontSize="14"
@@ -328,7 +328,7 @@
 
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
-                            <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis"/>
+                            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis"/>
                             <Setter Property="Background" Value="#39385D"/>
                             <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
@@ -354,7 +354,7 @@
 
 
                 </Button>
-                <Button Content="Wczytaj"
+                <Button Content="Load"
                     x:Name="Powrot"
                     Foreground="White"
                     FontSize="14"
@@ -366,7 +366,7 @@
 
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
-                            <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis"/>
+                            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis"/>
                             <Setter Property="Background" Value="#39385D"/>
                             <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
@@ -392,7 +392,7 @@
 
 
                 </Button>
-                <Button Content="Powrót"
+                <Button Content="Back"
                         Foreground="White"
                         FontSize="14"
                         FontWeight="Medium"
@@ -400,7 +400,7 @@
                         Margin="10,0,0,0">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
-                            <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis"/>
+                            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis"/>
                             <Setter Property="Background" Value="#FE6584"/>
                             <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
@@ -508,7 +508,7 @@
             <TextBlock Text="DO:"
                 FontSize="25" Width="34"
                 Foreground="White"
-                FontFamily="Czcionka/#Dosis"
+                FontFamily="Font/#Dosis"
                 FontWeight="Medium"/>
         </StackPanel>
     </Grid>

@@ -8,43 +8,46 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Czcionka\Dosis.ttf" />
-    <None Remove="Grafika\calendar.png" />
-    <None Remove="Grafika\DO.png" />
-    <None Remove="Grafika\Ikona.png" />
-    <None Remove="Grafika\pociag1.png" />
-    <None Remove="Grafika\ticket.png" />
-    <None Remove="Grafika\train-regional.png" />
-    <None Remove="Grafika\train.png" />
-    <None Remove="Grafika\Z.png" />
+    <Compile Remove="Czcionka\**" />
+    <EmbeddedResource Remove="Czcionka\**" />
+    <None Remove="Czcionka\**" />
+    <Page Remove="Czcionka\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Czcionka\Dosis.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="Grafika\ticket.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Grafika\calendar.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Grafika\DO.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Grafika\Ikona.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Grafika\pociag1.png">
+    <None Remove="Images\calendar.png" />
+    <None Remove="Images\DO.png" />
+    <None Remove="Images\Ikona.png" />
+    <None Remove="Images\pociag1.png" />
+    <None Remove="Images\ticket.png" />
+    <None Remove="Images\train-regional.png" />
+    <None Remove="Images\train.png" />
+    <None Remove="Images\Z.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\ticket.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Grafika\train-regional.png">
+    <Content Include="Images\calendar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Grafika\train.png">
+    <Content Include="Images\DO.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Grafika\Z.png">
+    <Content Include="Images\Ikona.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\pociag1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\train-regional.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\train.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Z.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -40,37 +40,37 @@ namespace Pociag
         {
             string filePath = "loginData.txt";
 
-            if (!File.Exists(filePath))//function that checks if there's any loginData.txt file in this project, if not it creates one
+            if (!File.Exists(filePath))
             {
                 File.CreateText(filePath).Close();
             }
-            string dataToSave = $"Login: {login}, Hasło: {password}{Environment.NewLine}"; //it saves data in following: "Login:" login "Haslo:" password
+            string dataToSave = $"Login: {login}, Hasło: {password}{Environment.NewLine}";
 
             try
             {
                 File.AppendAllText(filePath, dataToSave);
-                MessageBox.Show("Zarejestrowano pomyslnie!");
+                MessageBox.Show("Registered successfully!");
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Błąd podczas zapisywania danych: {ex.Message}");
+                MessageBox.Show($"Error saving data: {ex.Message}");
             }
         }
 
-        private void Rejestracja(object sender, RoutedEventArgs e)//actual process of saving user's data to loginData.txt
+        private void Rejestracja(object sender, RoutedEventArgs e)
         {
             string login = LoginTextBox.Text;
             string password = PasswordBox.Password;
 
             if (CheckRegister(login, password))
             {
-                MessageBox.Show("Podane dane już istnieją!");
+                MessageBox.Show("The provided data already exists!");
             }
             else
             {
                 SaveLoginAndPassword(login, password);
-                MessageBox.Show("Rejestracja zakończona pomyślnie!");
+                MessageBox.Show("Registration completed successfully!");
             }
         }
 
@@ -85,7 +85,7 @@ namespace Pociag
 
                 foreach (string line in loginData)
                 {
-                    if (line.Contains("Login: " + login) && line.Contains("Hasło: " + password))
+                    if (line.Contains("Login: " + login) && line.Contains("Password: " + password))
                     {
                         isDuplicate = true;
                         break;
@@ -107,7 +107,7 @@ namespace Pociag
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        if (line.Contains($"Login: {login}, Hasło: {password}"))
+                        if (line.Contains($"Login: {login}, Password: {password}"))
                         {
                             return true;
                         }
@@ -116,24 +116,24 @@ namespace Pociag
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Błąd podczas odczytu pliku: {ex.Message}");
+                MessageBox.Show($"Error saving data: {ex.Message}");
             }
 
             return false;
         }
-        private void Logowanie(object sender, RoutedEventArgs e)//checks if there is login and password in loginData
+        private void Logowanie(object sender, RoutedEventArgs e)
         {
             string login = LoginTextBox.Text;
             string password = PasswordBox.Password;
 
             if (CheckLoginAndPassword(login, password))
             {
-                MessageBox.Show("Zalogowano pomyślnie.");
+                MessageBox.Show("You have logged in successfully!");
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Nieprawidłowy login lub hasło.");
+                MessageBox.Show("Incorrect login or password");
             }
         }
 

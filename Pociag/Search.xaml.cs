@@ -26,8 +26,8 @@ namespace Pociag
         public Search()
         {
             InitializeComponent();
-            Cities = new string[] {"Warszawa","Kraków","Wrocław","Poznań","Gdańsk","Gdynia","Rzeszów","Opole" };
-            Status = new string[] {"Osoba dorosła","Dziecko","Student","Osoba niepełnosprawna","Emeryt"};
+            Cities = new string[] { "Warszawa", "Kraków", "Wrocław", "Poznań", "Gdańsk", "Gdynia", "Rzeszów", "Opole" };
+            Status = new string[] { "Adult", "Child", "Student", "Disabled", "Retired" };
             DataContext = this;
 
 
@@ -47,7 +47,7 @@ namespace Pociag
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Czy na pewno chcesz wyjść?", "Potwierdzenie wyjścia", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to exit?", "Exit confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 Close();
