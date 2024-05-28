@@ -1,0 +1,384 @@
+﻿<Window x:Class="Pociag.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pociag"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="900"
+        WindowStyle="None" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        MouseDown="Window_OnMouseDown"
+        >
+    <Window.Background>
+        <LinearGradientBrush>
+            <GradientStop Color="#0036FF" Offset="0.1"/>
+            <GradientStop Color="#181735" Offset="0.3"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+
+
+
+        <Grid
+            Background="#0F0F2D"
+              Grid.ColumnSpan="2"
+              >
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="53*"></ColumnDefinition>
+                <ColumnDefinition Width="31*"></ColumnDefinition>
+                <ColumnDefinition Width="77*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+
+
+            <TextBlock Text="PKP ICAA"
+                       Foreground="White"
+                       Grid.Column="1"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontFamily="Czcionka/#Dosis"
+                       FontWeight="Medium" Height="16" Width="44">
+
+
+
+
+            </TextBlock>
+            <Button Content="Credits"
+                        Foreground="White"
+                        FontSize="10"
+                        FontWeight="Medium"
+                        Margin="58,0,12,0"
+                    Grid.Column="10"
+                    Grid.ColumnSpan="3"
+                    Click="CreditsButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis">
+                        </Setter>
+                        <Setter Property="Background" Value="#FE6584"></Setter>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF4C70">
+
+                                </Setter>
+                            </Trigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="85" Height="20"
+                                    CornerRadius="8"
+                                    Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center" >
+
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+
+
+
+
+            </Button>
+
+
+
+            <Button Content="Wyjdź"
+                        Foreground="White"
+                        FontSize="10"
+                        FontWeight="Medium"
+                        Margin="58,0,12,0"
+                    Grid.Column="12"
+                    Grid.ColumnSpan="3"
+                    Click="CloseButton_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis">
+                        </Setter>
+                        <Setter Property="Background" Value="#FE6584"></Setter>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF4C70">
+
+                                </Setter>
+                            </Trigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="85" Height="20"
+                                    CornerRadius="8"
+                                    Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center" >
+
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+
+
+
+
+            </Button>
+
+
+
+
+        </Grid>
+
+
+        <StackPanel Grid.Row="1"
+                    VerticalAlignment="Center"
+                    Margin="60">
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,0,0,20">
+                
+        
+                
+                <Image x:Name="LogoImg"
+                    Width="100" Height="100"
+                       Source="/Grafika/pociag1.png"
+                       RenderOptions.BitmapScalingMode="Fant"></Image>
+                <TextBlock Text="PKP ICAA"
+                           x:Name="Logo"
+                           Foreground="White"
+                           FontSize="40"
+                           FontWeight="Medium"
+                           VerticalAlignment="Center"
+                           FontFamily="Czcionka/#Dosis"
+                           Margin="10,0,0,0">
+
+
+                </TextBlock>
+
+            </StackPanel>
+
+
+            <StackPanel x:Name="Description">
+                <TextBlock Text="Twój niezawodny"
+                       Foreground="White"
+                       FontSize="25"
+                       FontWeight="Medium"
+                       FontFamily="Czcionka/#Dosis">
+
+                </TextBlock>
+                <TextBlock Text="Wybór"
+                       Foreground="White"
+                       FontSize="25"
+                       FontWeight="Medium"
+                       FontFamily="Czcionka/#Dosis">
+
+                </TextBlock>
+                <TextBlock Text="Środka podróży"
+                       Foreground="White"
+                       FontSize="25"
+                       FontWeight="Medium"
+                       FontFamily="Czcionka/#Dosis">
+
+                </TextBlock>
+                <TextBlock Text="Pomagamy Wam w codziennych podróżach, abyście mogli zmieniać świat razem z nami."
+                       Foreground="White"
+                       FontSize="12"
+                       FontWeight="Medium"
+                       FontFamily="Czcionka/#Dosis"
+                       TextWrapping="Wrap"
+                           Margin="0,10,0,0">
+
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,15,0,0">
+                <Button Content="Start"
+                        Foreground="White"
+                        FontSize="14"
+                        FontWeight="Medium"
+                        Margin="0,0,10,0"
+                        Click="StartButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis">
+                            </Setter>
+                            <Setter Property="Background" Value="#FE6584"></Setter>
+                            <Setter Property="Cursor" Value="Hand"></Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF4C70">
+
+                                    </Setter>
+                                </Trigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="100" Height="25"
+                                    CornerRadius="12"
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center" >
+
+                                </ContentPresenter>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+
+
+
+                </Button>
+
+
+                <Button Content="Zarejestruj się!"
+                        x:Name="Register"
+                        Foreground="White"
+                        FontSize="14"
+                        FontWeight="Medium"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Padding="10"
+                        Click="OpenLoginWindow_Click"
+                        >
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="TextElement.FontFamily" Value="Czcionka/#Dosis">
+                            </Setter>
+                            <Setter Property="Background" Value="#39385D"></Setter>
+                            <Setter Property="Cursor" Value="Hand"></Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#3A3952">
+
+                                    </Setter>
+                                </Trigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="100" Height="25"
+                                    CornerRadius="12"
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center" >
+
+                                </ContentPresenter>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+
+
+
+                </Button>
+
+            </StackPanel>
+
+
+        </StackPanel>
+        <Grid Grid.Column="1"
+              Grid.RowSpan="2"
+              Margin="160,-365,-610,85"
+              Panel.ZIndex="-1">
+            <Grid.RenderTransform>
+                <RotateTransform Angle="50">
+
+                </RotateTransform>
+            </Grid.RenderTransform>
+
+            <StackPanel Orientation="Horizontal"
+                        Margin="-350,250,-255,-250">
+                <StackPanel>
+                    <Border Width="700"
+                            Height="35"
+                            Background="#3DDDC2"
+                            Margin="150,0,0,0"
+                            CornerRadius="20">
+
+                    </Border>
+                    <Border Width="700"
+                            Height="35"
+                            Background="#FC6586"
+                            Margin="0,15,0,0"
+                            CornerRadius="20">
+
+                    </Border>
+                    <Border Width="700"
+                            Height="35"
+                            Background="#383660"
+                            Margin="75,15,0,0"
+                            CornerRadius="20">
+
+                    </Border>
+                </StackPanel>
+                <StackPanel>
+                    <Border Width="700"
+                            Height="35"
+                            Background="#3DDDC2"
+                            Margin="150,0,0,0"
+                            CornerRadius="20">
+
+                    </Border>
+                    <Border Width="700"
+                            Height="35"
+                            Background="#FC6586"
+                            Margin="0,15,0,0"
+                            CornerRadius="20">
+
+                    </Border>
+                    <Border Width="700"
+                            Height="35"
+                            Background="#383660"
+                            Margin="75,15,0,0"
+                            CornerRadius="20">
+
+                    </Border>
+                </StackPanel>
+
+
+
+
+
+
+
+
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
