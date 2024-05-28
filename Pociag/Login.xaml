@@ -83,13 +83,13 @@
                         Opacity="0.5"/>
 
                 <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
-                    <Button Width="100"  FontFamily="Czcionka/#Dosis" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="Logowanie"/>
-                    <Button Width="100" FontFamily="Czcionka/#Dosis" Height="40" Content="REGISTER"
-                            Click="Rejestracja"/>
+                    <Button Width="100"  FontFamily="Font/#Dosis" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="LoginButton_Click"/>
+                    <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="REGISTER"
+                            Click="RegisterButton_Click"/>
 
                 </StackPanel>
                 <StackPanel>
-                    <Button Width="100" FontFamily="Czcionka/#Dosis" Height="40" Content="BACK" Margin="10"
+                    <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="BACK" Margin="10"
                             Click="CloseButton_Click"/>
 
                 </StackPanel>
