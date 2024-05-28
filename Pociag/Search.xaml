@@ -166,7 +166,7 @@
                     Margin="105,80,46,0"
                     Height="30"
                     Width="300">
-            <ComboBox Height="30" Width="300" x:Name="Poczatek" ItemsSource="{Binding Cities}"/>
+            <ComboBox Height="30" Width="300" x:Name="Beginning" ItemsSource="{Binding Cities}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" 
@@ -174,7 +174,7 @@
                     Margin="105,125,45,0"
                     Height="30"
                     Width="300">
-            <ComboBox Height="30" Width="300" x:Name="Koniec" ItemsSource="{Binding Cities}"/>
+            <ComboBox Height="30" Width="300" x:Name="Final" ItemsSource="{Binding Cities}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" 
@@ -213,7 +213,7 @@
                     Margin="123,160,63,0"
                     Height="173">
 
-            <Calendar Width="260" x:Name="Kalendarz"/>
+            <Calendar Width="260" x:Name="_Calendar"/>
         </StackPanel>
 
 
@@ -258,7 +258,7 @@
                     VerticalAlignment="Top"
                     Margin="157,360,99,0"
                     Height="26">
-            <ComboBox Height="31" Width="180" x:Name="Statusek" ItemsSource="{Binding Status}"/>
+            <ComboBox Height="31" Width="180" x:Name="_Status" ItemsSource="{Binding Status}"/>
 
         </StackPanel>
 
@@ -280,7 +280,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Padding="10"
-                        Click="ZapiszButton_Click"
+                        Click="SaveButton_Click"
                         >
 
                     <Button.Style>
@@ -322,7 +322,7 @@
                     FontSize="14"
                     FontWeight="Medium"
                     Padding="10"
-                    Click="ObliczButton_Click"
+                    Click="CalculateButton_Click"
                         Margin="10,0,0,0"
                         >
 
@@ -360,7 +360,7 @@
                     FontSize="14"
                     FontWeight="Medium"
                     Padding="10"
-                    Click="WczytajButton_Click"
+                    Click="LoadButton_Click"
                         Margin="10,0,0,0"
                         >
 
@@ -396,7 +396,7 @@
                         Foreground="White"
                         FontSize="14"
                         FontWeight="Medium"
-                        Click="PowrotButton_Click"
+                        Click="BackButton_Click"
                         Margin="10,0,0,0">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
