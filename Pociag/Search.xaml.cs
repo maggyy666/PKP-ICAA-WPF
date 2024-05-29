@@ -1,29 +1,270 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text.Json.Serialization.Metadata;
+using System.Net.NetworkInformation;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Pociag
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Search.xaml
-    /// </summary>
     public partial class Search : Window
     {
-        public string[] Cities { get; set; }
-        public string[] Status { get; set; }
+        private Dictionary<string, Dictionary<string, int>> priceList;
+        private List<string> cities;
+        private List<string> discounts;
+
         public Search()
         {
             InitializeComponent();
-            Cities = new string[] { "Warsaw", "Kraków", "Wrocław", "Poznań", "Gdańsk", "Gdynia", "Rzeszów", "Opole" };
-            Status = new string[] { "Adult", "Child", "Student", "Disabled", "Retired" };
-            DataContext = this;
+            LoadCitiesAndDiscounts();
+            InitializePriceList();
 
-            //_travelService = new JsonMetadataServices<Travel>("JSON/travels.json");
+            Beginning.ItemsSource = cities;
+            Final.ItemsSource = cities;
+            _Status.ItemsSource = discounts;
+        }
 
+        private void LoadCitiesAndDiscounts()
+        {
+            cities = new List<string> { "Warsaw", "Krakow", "Wroclaw", "Poznan", "Gdansk", "Gdynia", "Rzeszow", "Opole", "Lodz", "Szczecin" };
+            discounts = new List<string> { "None", "Student", "Senior", "Disabled", "Guide", "BlindNonSelfSufficient", "ChildrenWithDisability", "DisabledStudents", "ParentGuardian", "NonProfessionalMilitaryService", "CivilianWarBlindVictims", "Students", "AbroadStudents", "ForeignLanguageTeachers", "SocialServiceWorkers", "DoctoralStudents", "LargeFamilyCard", "Blind", "NonSelfSufficient", "ChildrenUntil24", "PolishLanguageStudents", "EuropeanSchoolStudents", "Teachers", "Other" };
+        }
+
+        private void InitializePriceList()
+        {
+            priceList = new Dictionary<string, Dictionary<string, int>>();
+
+            // Definicja cen połączeń między miastami
+            priceList["Warsaw"] = new Dictionary<string, int>
+{
+    { "Krakow", 250 },
+    { "Wroclaw", 300 },
+    { "Poznan", 200 },
+    { "Gdansk", 400 },
+    { "Gdynia", 450 },
+    { "Rzeszow", 350 },
+    { "Opole", 280 },
+    { "Lodz", 150 },
+    { "Szczecin", 400 }
+};
+
+            priceList["Krakow"] = new Dictionary<string, int>
+{
+    { "Warsaw", 250 },
+    { "Wroclaw", 200 },
+    { "Poznan", 300 },
+    { "Gdansk", 500 },
+    { "Gdynia", 450 },
+    { "Rzeszow", 120 },
+    { "Opole", 180 },
+    { "Lodz", 250 },
+    { "Szczecin", 550 }
+};
+
+            priceList["Wroclaw"] = new Dictionary<string, int>
+{
+    { "Warsaw", 300 },
+    { "Krakow", 200 },
+    { "Poznan", 100 },
+    { "Gdansk", 450 },
+    { "Gdynia", 500 },
+    { "Rzeszow", 300 },
+    { "Opole", 100 },
+    { "Lodz", 200 },
+    { "Szczecin", 400 }
+};
+
+            priceList["Poznan"] = new Dictionary<string, int>
+{
+    { "Warsaw", 200 },
+    { "Krakow", 300 },
+    { "Wroclaw", 100 },
+    { "Gdansk", 350 },
+    { "Gdynia", 400 },
+    { "Rzeszow", 220 },
+    { "Opole", 150 },
+    { "Lodz", 150 },
+    { "Szczecin", 300 }
+};
+
+            priceList["Gdansk"] = new Dictionary<string, int>
+{
+    { "Warsaw", 400 },
+    { "Krakow", 500 },
+    { "Wroclaw", 450 },
+    { "Poznan", 350 },
+    { "Gdynia", 50 },
+    { "Rzeszow", 450 },
+    { "Opole", 420 },
+    { "Lodz", 400 },
+    { "Szczecin", 250 }
+};
+
+            priceList["Gdynia"] = new Dictionary<string, int>
+{
+    { "Warsaw", 450 },
+    { "Krakow", 450 },
+    { "Wroclaw", 500 },
+    { "Poznan", 400 },
+    { "Gdansk", 50 },
+    { "Rzeszow", 500 },
+    { "Opole", 450 },
+    { "Lodz", 450 },
+    { "Szczecin", 300 }
+};
+
+            priceList["Rzeszow"] = new Dictionary<string, int>
+{
+    { "Warsaw", 350 },
+    { "Krakow", 120 },
+    { "Wroclaw", 300 },
+    { "Poznan", 220 },
+    { "Gdansk", 450 },
+    { "Gdynia", 500 },
+    { "Opole", 280 },
+    { "Lodz", 320 },
+    { "Szczecin", 550 }
+};
+
+            priceList["Opole"] = new Dictionary<string, int>
+{
+    { "Warsaw", 280 },
+    { "Krakow", 180 },
+    { "Wroclaw", 100 },
+    { "Poznan", 150 },
+    { "Gdansk", 420 },
+    { "Gdynia", 450 },
+    { "Rzeszow", 280 },
+    { "Lodz", 200 },
+    { "Szczecin", 400 }
+};
+
+            priceList["Lodz"] = new Dictionary<string, int>
+{
+    { "Warsaw", 150 },
+    { "Krakow", 250 },
+    { "Wroclaw", 200 },
+    { "Poznan", 150 },
+    { "Gdansk", 400 },
+    { "Gdynia", 450 },
+    { "Rzeszow", 320 },
+    { "Opole", 200 },
+    { "Szczecin", 400 }
+};
+
+            priceList["Szczecin"] = new Dictionary<string, int>
+{
+    { "Warsaw", 400 },
+    { "Krakow", 550 },
+    { "Wroclaw", 400 },
+    { "Poznan", 300 },
+    { "Gdansk", 250 },
+    { "Gdynia", 300 },
+    { "Rzeszow", 550 },
+    { "Opole", 400 },
+    { "Lodz", 400 }
+};
+
+
+
+            // Dodaj ceny dla pozostałych miast
+            // ...
+
+            // Symetryczne dodanie cen dla każdego połączenia
+            foreach (var city in cities)
+            {
+                foreach (var otherCity in cities)
+                {
+                    if (city != otherCity && !priceList[city].ContainsKey(otherCity))
+                    {
+                        priceList[city][otherCity] = priceList[otherCity][city];
+                    }
+                }
+            }
+        }
+
+        private void CalculateButton_Click(object sender, RoutedEventArgs e)
+        {
+            string startingCity = (string)Beginning.SelectedItem;
+            string finalCity = (string)Final.SelectedItem;
+            string selectedDiscount = (string)_Status.SelectedItem;
+
+            if (string.IsNullOrEmpty(startingCity) || string.IsNullOrEmpty(finalCity) || string.IsNullOrEmpty(selectedDiscount))
+            {
+                MessageBox.Show("Please select all fields");
+                return;
+            }
+
+            if (!priceList.ContainsKey(startingCity) || !priceList[startingCity].ContainsKey(finalCity))
+            {
+                MessageBox.Show("There is no connection between selected cities!");
+                return;
+            }
+            if (startingCity == finalCity)
+            {
+                MessageBox.Show("Starting city and final city cannot be the same!");
+                return;
+            }
+
+            int basePrice = priceList[startingCity][finalCity];
+            double discountPercentage = GetDiscountPercentage(selectedDiscount);
+            double finalPrice = basePrice * (1 - (discountPercentage / 100));
+
+            MessageBox.Show($"Ticket price: {finalPrice} PLN");
+        }
+
+        private double GetDiscountPercentage(string selectedDiscount)
+        {
+            switch (selectedDiscount)
+            {
+                case "None":
+                    return 0;
+                case "Student":
+                    return 50;
+                case "Senior":
+                    return 30;
+                case "Disabled":
+                    return 20;
+                case "Guide":
+                    return 95; // 95% ulga dla przewodnika lub opiekuna
+                case "BlindNonSelfSufficient":
+                    return 93; // 93% ulga dla osób niewidomych uznanych za niezdolne do samodzielnej egzystencji
+                case "ChildrenWithDisability":
+                case "DisabledStudents":
+                case "ParentGuardian":
+                    return 78; // 78% ulga dla dzieci i młodzieży dotkniętych inwalidztwem, niepełnosprawnych studentów oraz jednego z rodziców lub opiekuna
+                case "NonProfessionalMilitaryService":
+                case "CivilianWarBlindVictims":
+                    return 78; // 78% ulga dla żołnierzy odbywających niezawodową służbę wojskową, cywilnych niewidomych ofiar działań wojennych
+                case "Students":
+                case "AbroadStudents":
+                case "ForeignLanguageTeachers":
+                case "SocialServiceWorkers":
+                case "DoctoralStudents":
+                    return 51; // 51% ulga dla studentów do 26 roku życia, słuchaczy kolegiów nauczycielskich, nauczycieli języka obcego, doktorantów
+                case "LargeFamilyCard":
+                    return 49; // 49% ulga dla posiadaczy Karty Dużej Rodziny
+                case "Blind":
+                case "NonSelfSufficient":
+                case "ChildrenUntil24":
+                case "PolishLanguageStudents":
+                case "EuropeanSchoolStudents":
+                    return 37; // 37% ulga dla osób niewidomych, osób niezdolnych do samodzielnej egzystencji, dzieci i młodzieży do 24 roku życia, posiadaczy Karty Polaka, dzieci uczących się języka polskiego za granicą, uczniów szkół europejskich
+                case "Teachers":
+                    return 33; // 33% ulga dla nauczycieli przedszkoli, szkół podstawowych i ponadpodstawowych, nauczycieli akademickich
+                default:
+                    return 0;
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to exit?", "Exit confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                Close();
+            }
         }
         private void Window_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -33,145 +274,97 @@ namespace Pociag
             }
         }
 
-
-
-
-
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to exit?", "Exit confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            try
             {
-                Close();
+                if (File.Exists("Travels.json"))
+                {
+                    string jsonString = File.ReadAllText("Travels.json");
+                    List<Travel> travels = JsonSerializer.Deserialize<List<Travel>>(jsonString);
+
+                    if (travels != null && travels.Count > 0)
+                    {
+                        Travel lastTravel = travels[travels.Count - 1];
+                        Beginning.SelectedItem = lastTravel.Beginning;
+                        Final.SelectedItem = lastTravel.Final;
+                        _Calendar.SelectedDate = lastTravel.Date;
+                        _Status.SelectedItem = lastTravel.Status;
+
+                        MessageBox.Show("Last travel loaded successfully!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No saved travels found.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No saved travels found.");
+                }
             }
-            //Window.GetWindow(this).Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error while loading travels: {ex.Message}");
+            }
         }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            string startingCity = (string)Beginning.SelectedItem;
+            string finalCity = (string)Final.SelectedItem;
+            DateTime selectedDate = _Calendar.SelectedDate ?? DateTime.Now;
+            string selectedDiscount = (string)_Status.SelectedItem;
+            if (startingCity == finalCity)
+            {
+                MessageBox.Show("Starting city and final city cannot be the same!");
+            }
+            Travel newTravel = new Travel
+            {
+                Beginning = startingCity,
+                Final = finalCity,
+                Date = selectedDate,
+                Status = selectedDiscount
+            };
+
+            List<Travel> travels = new List<Travel>();
+
+            if (File.Exists("Travels.json"))
+            {
+                try
+                {
+                    string jsonString = File.ReadAllText("Travels.json");
+                    travels = JsonSerializer.Deserialize<List<Travel>>(jsonString);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error while loading existing travels: {ex.Message}");
+                }
+            }
+
+            travels.Add(newTravel);
+
+            try
+            {
+                string jsonString = JsonSerializer.Serialize(travels);
+                File.WriteAllText("Travels.json", jsonString);
+                MessageBox.Show("Travel saved successfully!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error while saving travel: {ex.Message}");
+            }
+        }
+
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             Close();
         }
-        public void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            DateTime? selectedDate = _Calendar.SelectedDate;
-            if (selectedDate != null)
-            {
-                string data = selectedDate.Value.ToString("yyyy-MM-dd");
-
-                string beginning = Beginning.SelectedItem.ToString();
-                string final = Final.SelectedItem.ToString();
-                string _status = _Status.SelectedItem.ToString();
-
-                if (string.IsNullOrEmpty(beginning) || string.IsNullOrEmpty(final) || string.IsNullOrEmpty(_status))
-                {
-                    MessageBox.Show("Nie wybrano wszystkich pól!");
-                    return;
-                }
-
-                string dane = beginning + ";" + final + ";" + _status + ";" + data + Environment.NewLine;
-
-                if (!File.Exists("Podroz.txt"))
-                {
-                    File.WriteAllText("Podroz.txt", dane);
-                }
-                else
-                {
-                    File.AppendAllText("Podroz.txt", dane);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano daty!");
-            }
-
-        }
-        private void LoadButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                string[] lines = File.ReadAllLines("Podroz.txt");
-                if (lines.Length > 0)
-                {
-                    string[] data = lines[lines.Length - 1].Split(';');
-                    if (data.Length == 4)
-                    {
-                        Beginning.SelectedItem = data[0];
-                        Final.SelectedItem = data[1];
-                        _Status.SelectedItem = data[2];
-
-                        DateTime date;
-                        if (DateTime.TryParse(data[3], out date))
-                        {
-                           _Calendar.SelectedDate = date;
-                        }
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                MessageBox.Show("Nie znaleziono pliku Podroz.txt");
-            }
-        }
-        private void CalculateButton_Click(object sender, RoutedEventArgs e)
-        {
-            string startingCity = (string)Beginning.SelectedValue;
-            string finalCity = (string)Final.SelectedValue;
-            string status = (string)_Status.SelectedValue;
-
-            double price = 0;
-
-            Dictionary<string, Dictionary<string, int>> pricelist = new Dictionary<string, Dictionary<string, int>>();
-            string[] pricelistLines = File.ReadAllLines("Cennik.txt");
-            foreach (string line in pricelistLines)
-            {
-                string[] field = line.Split('-');
-                string city1 = field[0];
-                string[] field2 = field[1].Split(':');
-                string city2 = field2[0];
-                int ticketPrice = int.Parse(field2[1]);
-
-                if (!pricelist.ContainsKey(city1))
-                {
-                    pricelist[city1] = new Dictionary<string, int>();
-                }
-                pricelist[city1][city2] = ticketPrice;
-            }
-
-            if (pricelist.ContainsKey(startingCity) && pricelist[startingCity].ContainsKey(finalCity))
-            {
-                price = pricelist[startingCity][finalCity];
-            }
-            else
-            {
-                MessageBox.Show("There is no connection between the cities listed in the price list!");
-                return;
-            }
-
-            switch (status)
-            {
-                case "Adult":
-                    break;
-                case "Child":
-                    price = price * 0.3;
-                    break;
-                case "Student":
-                    price = price * 0.50;
-                    break;
-                case "Disabled person":
-                    price = price * 0.4;
-                    break;
-                case "Pensioner":
-                    price = price * 0.6;
-                    break;
-                default:
-                    break;
-            }
-
-            MessageBox.Show($"Ticket price: PLN {price}");
-        }
-
-        
     }
 }
+
+
+
+
