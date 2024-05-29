@@ -8,8 +8,8 @@
         Title="Search" Height="500" Width="900"
         WindowStyle="None" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        MouseDown="Window_OnMouseDown"
-        >
+        MouseDown="Window_OnMouseDown">
+    
     <Window.Background>
         <LinearGradientBrush>
             <GradientStop Color="#0036FF" Offset="0.1"/>
@@ -258,7 +258,7 @@
                     VerticalAlignment="Top"
                     Margin="157,360,99,0"
                     Height="26">
-            <ComboBox Height="31" Width="180" x:Name="_Status" ItemsSource="{Binding Status}"/>
+            <ComboBox Height="31" Width="180" x:Name="_Status" ItemsSource="{Binding discounts}"/>
 
         </StackPanel>
 
