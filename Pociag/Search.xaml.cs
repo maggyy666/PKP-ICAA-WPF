@@ -35,7 +35,6 @@ namespace Pociag
         {
             priceList = new Dictionary<string, Dictionary<string, int>>();
 
-            // Definicja cen połączeń między miastami
             priceList["Warsaw"] = new Dictionary<string, int>
 {
     { "Krakow", 250 },
@@ -168,10 +167,6 @@ namespace Pociag
 
 
 
-            // Dodaj ceny dla pozostałych miast
-            // ...
-
-            // Symetryczne dodanie cen dla każdego połączenia
             foreach (var city in cities)
             {
                 foreach (var otherCity in cities)
@@ -227,35 +222,36 @@ namespace Pociag
                 case "Disabled":
                     return 20;
                 case "Guide":
-                    return 95; // 95% ulga dla przewodnika lub opiekuna
+                    return 95;
                 case "BlindNonSelfSufficient":
-                    return 93; // 93% ulga dla osób niewidomych uznanych za niezdolne do samodzielnej egzystencji
+                    return 93;
                 case "ChildrenWithDisability":
                 case "DisabledStudents":
                 case "ParentGuardian":
-                    return 78; // 78% ulga dla dzieci i młodzieży dotkniętych inwalidztwem, niepełnosprawnych studentów oraz jednego z rodziców lub opiekuna
+                    return 78;
                 case "NonProfessionalMilitaryService":
                 case "CivilianWarBlindVictims":
-                    return 78; // 78% ulga dla żołnierzy odbywających niezawodową służbę wojskową, cywilnych niewidomych ofiar działań wojennych
+                    return 78;
                 case "Students":
                 case "AbroadStudents":
                 case "ForeignLanguageTeachers":
                 case "SocialServiceWorkers":
                 case "DoctoralStudents":
-                    return 51; // 51% ulga dla studentów do 26 roku życia, słuchaczy kolegiów nauczycielskich, nauczycieli języka obcego, doktorantów
+                    return 51;
                 case "LargeFamilyCard":
-                    return 49; // 49% ulga dla posiadaczy Karty Dużej Rodziny
+                    return 49;
                 case "Blind":
                 case "NonSelfSufficient":
                 case "ChildrenUntil24":
                 case "PolishLanguageStudents":
                 case "EuropeanSchoolStudents":
-                    return 37; // 37% ulga dla osób niewidomych, osób niezdolnych do samodzielnej egzystencji, dzieci i młodzieży do 24 roku życia, posiadaczy Karty Polaka, dzieci uczących się języka polskiego za granicą, uczniów szkół europejskich
+                    return 37;
                 case "Teachers":
-                    return 33; // 33% ulga dla nauczycieli przedszkoli, szkół podstawowych i ponadpodstawowych, nauczycieli akademickich
+                    return 33;
                 default:
                     return 0;
             }
+
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
