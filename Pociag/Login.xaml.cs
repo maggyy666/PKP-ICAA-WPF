@@ -42,11 +42,7 @@ namespace Pociag
             var jsonService = new JsonService<User>(_filePath);
             jsonService.Save(_users);
         }
-
-        // Reszta kodu pozostaje bez zmian...
     
-
-
     private bool CheckLoginAndPassword(string login, string password)
         {
             var user = _users.FirstOrDefault(u => u.Username == login && u.Password == password);
