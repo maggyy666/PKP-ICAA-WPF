@@ -1,4 +1,5 @@
 # PKP ICAA - Railway Ticket Booking Application
+![PKP-ICAA-WPF](https://github.com/maggyy666/PKP-ICAA-WPF/assets/119632961/3af6af02-2eea-451c-957f-5c75e103c2b7)
 
 ## Introduction
 PKP ICAA is a Windows Presentation Foundation (WPF) application designed to facilitate railway ticket booking for users. This intuitive and user-friendly application allows passengers to search for available train routes, view ticket prices, and book tickets seamlessly. With a sleek and modern interface, PKP ICAA aims to provide a convenient and efficient way for travelers to plan their journeys, ensuring a smooth and hassle-free experience from start to finish.
