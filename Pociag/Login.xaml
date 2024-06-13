@@ -3,100 +3,153 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Pociag" xmlns:Iconpack="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:Pociag"
         mc:Ignorable="d"
-        Title="Login" Height="450" Width="380"
+        Title="Login" Height="500" Width="900"
         AllowsTransparency="True" Background="Transparent"
         WindowStyle="None" ResizeMode="NoResize"
         MouseDown="Window_OnMouseDown"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
+
+    <Window.Resources>
+        <Storyboard x:Key="RaiseText">
+            <DoubleAnimation
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                To="-10"
+                Duration="0:0:0.2" />
+        </Storyboard>
+        <Storyboard x:Key="LowerText">
+            <DoubleAnimation
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                To="0"
+                Duration="0:0:0.2" />
+        </Storyboard>
+    </Window.Resources>
+
     <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Nowy wiersz na komunikat -->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-            <Border CornerRadius="20" Grid.RowSpan="5">
-                <Border.Background>
-                    <LinearGradientBrush>
-                        <GradientStop Color="#181735" Offset="0.45"/>
-                        <GradientStop Color="#0036FF" Offset="0.9"/>
-                    </LinearGradientBrush> 
+        <Border Grid.RowSpan="4" CornerRadius="20">
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#181735" Offset="0.45"/>
+                    <GradientStop Color="#0036FF" Offset="0.9"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
 
-                </Border.Background>
-            </Border>
-            <StackPanel VerticalAlignment="Center">
-                    <Image Source="Images/pociag1.png" Width="120"></Image>
-                    <TextBlock Text="PKP ICAA"
-                               FontWeight="Light" 
-                               FontFamily="helvetica"
-                               FontSize="20"
-                               Foreground="White"
-                               HorizontalAlignment="Center"/>
+        <StackPanel VerticalAlignment="Center" Grid.Row="0">
+            <Image Source="Images/pociag1.png" Width="120"/>
+            <TextBlock Text="PKP ICAA"
+                       FontWeight="Light" 
+                       FontFamily="helvetica"
+                       FontSize="20"
+                       Foreground="White"
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
 
-                </StackPanel>
-
-            <StackPanel Grid.Row="1">
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Name="LoginTextBox"
-                        FontFamily="Czcionka/#Dosis"
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal" Width="251">
+                <TextBox Name="LoginTextBox"
+                         FontFamily="Font/#Dosis"
                          FontWeight="Light"
                          Text="Username"
                          FontSize="20"
                          HorizontalAlignment="Left"
-                         Foreground="white"
-                         Background="Transparent"
+                         Foreground="Gray" 
+                    Background="Transparent"
                          BorderThickness="0"
                          Width="235"
                          HorizontalContentAlignment="Left"
                          Opacity="0.5"
                          Height="25"
-                         Margin="63,0,0,0"/>
-                </StackPanel>
-                <Border Width="250"
-                        Height="2"
-                        Background="White"
-                        Opacity="0.5"/>
-
-
-
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                    <PasswordBox Name="PasswordBox"
-                        FontFamily="helvetica"
-                         FontWeight="Light"
-                         Password="Password"
-                         FontSize="20"
-                         HorizontalAlignment="Left"
-                         Foreground="white"
-                         Background="Transparent"
-                         BorderThickness="0"
-                         Width="235"
-                         HorizontalContentAlignment="Left"
-                         Opacity="0.5"
-                         Height="25"
-                         Margin="63,0,0,0"/>
-                </StackPanel>
-                <Border Width="250"
-                        Height="2"
-                        Background="White"
-                        Opacity="0.5"/>
-
-                <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
-                    <Button Width="100"  FontFamily="Font/#Dosis" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="LoginButton_Click"/>
-                    <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="REGISTER"
-                            Click="RegisterButton_Click"/>
-
-                </StackPanel>
-                <StackPanel>
-                    <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="BACK" Margin="10"
-                            Click="CloseButton_Click"/>
-
-                </StackPanel>
+                         Margin="63,0,0,0"
+                         GotFocus="RemoveText"
+                         LostFocus="AddText"/>
             </StackPanel>
+            <Border Width="250"
+                    Height="2"
+                    Background="White"
+                    Opacity="0.5"/>
 
-           
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0" Width="248">
+                <PasswordBox Name="PasswordBox"
+                             FontFamily="helvetica"
+                             FontWeight="Light"
+                             Password="Password"
+                             FontSize="20"
+                             HorizontalAlignment="Left"
+                             Foreground="Gray"  
+                    Background="Transparent"
+                             BorderThickness="0"
+                             Width="235"
+                             HorizontalContentAlignment="Left"
+                             Opacity="0.5"
+                             Height="25"
+                             Margin="63,0,0,0"
+                             GotFocus="RemovePasswordText"
+                             LostFocus="AddPasswordText"/>
+            </StackPanel>
+            <Border Width="250"
+                    Height="2"
+                    Background="White"
+                    Opacity="0.5"/>
+        </StackPanel>
 
-        </Grid>
+        <!-- TextBlock na komunikaty -->
+        <TextBlock x:Name="MessageTextBlock"
+                   Grid.Row="2"
+                   FontFamily="Font/#Dosis"
+                   FontSize="16"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   Margin="10,0,10,10"
+                   TextAlignment="Center"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="243,10,243,58" Width="414" RenderTransformOrigin="0.494,0.468">
+            <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="LoginButton_Click"/>
+            <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="BACK" Margin="60,0,60,0" Click="CloseButton_Click"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="226,58,226,0" Width="447">
+            <TextBlock Text="You don't have an account yet? "
+                       VerticalAlignment="Center"
+                       FontFamily="Font/#Dosis"
+                       FontSize="14"
+                       Foreground="White"
+                       Margin="10"
+                       TextWrapping="Wrap"/>
+            <TextBlock Text="Create a new one for free now!"
+                       VerticalAlignment="Center"
+                       FontFamily="Font/#Dosis"
+                       FontSize="14"
+                       Foreground="White"
+                       Margin="10"
+                       TextWrapping="Wrap"
+                       TextDecorations="Underline"
+                       FontWeight="Bold"
+                       MouseLeftButtonDown="Register_Click"
+                       RenderTransformOrigin="0.5,0.5">
+                <TextBlock.RenderTransform>
+                    <TranslateTransform Y="0"/>
+                </TextBlock.RenderTransform>
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard Storyboard="{StaticResource RaiseText}"/>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard Storyboard="{StaticResource LowerText}"/>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+        </StackPanel>
     </Grid>
 </Window>
