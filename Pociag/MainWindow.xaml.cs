@@ -30,28 +30,30 @@ namespace Pociag
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Czy na pewno chcesz wyjść?", "Potwierdzenie wyjścia", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to exit?", "Exit confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                Close();
+                Application.Current.Shutdown();
             }
             //Window.GetWindow(this).Close();
         }
         private void OpenLoginWindow_Click(object sender, RoutedEventArgs e)//visibility, buttons content
         {
-                Login login = new Login();
-                login.ShowDialog();
+            Login login = new Login();
+            login.Show();
+            this.Close();
         }
         private void StartButton_Click(object sender, RoutedEventArgs e)//visibility
         {
           
             Search searchWindow = new Search();
             searchWindow.Show();
-            Close();
+            this.Close();
         }
         private void CreditsButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(" Autor: Jakub Czyż \n Programowanie IV \n Semestr letni 2023 \n 2 rok Informatyka \n WEAiI, Politechnika Opolska");
+            MessageBox.Show(" Author: Jakub Czyż \n Programming IV \n Summer semester 2023 \n 2nd year Computer science \n WEAiI, Opole University of Technology");
         }
+   
     }
 }
