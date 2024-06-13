@@ -9,7 +9,7 @@
         WindowStyle="None" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         MouseDown="Window_OnMouseDown">
-    
+
     <Window.Background>
         <LinearGradientBrush>
             <GradientStop Color="#0036FF" Offset="0.1"/>
@@ -120,8 +120,8 @@
         <StackPanel Grid.Row="1"
                     VerticalAlignment="Top" Margin="14,12,320,0" Height="45">
             <TextBlock Text="Railway"
-                       Width="112"
-                       FontSize="35"
+                       Width="115"
+                       FontSize="32"
                        Foreground="White"
                        FontFamily="Font/#Dosis"
                        FontWeight="Bold" Height="55" RenderTransformOrigin="0.504,0.617"/>
@@ -129,13 +129,13 @@
         </StackPanel>
         <StackPanel Grid.Row="1" 
                     VerticalAlignment="Top"
-                    Margin="137,11,0,0"
-                    Height="44">
+                    Margin="135,12,10,0"
+                    Height="55">
             <TextBlock Text="timetable and tickets"
-                       FontSize="35" Width="311"
+                       FontSize="32" Width="304"
                        Foreground="White"
                        FontFamily="Font/#Dosis"
-                       FontWeight="Medium"/>
+                       FontWeight="Medium" Height="55" RenderTransformOrigin="0.5,0.5"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1"
@@ -152,10 +152,10 @@
 
         <StackPanel Grid.Row="1" 
                     VerticalAlignment="Top"
-                    Margin="60,80,359,0"
-                    Height="30">
-            <TextBlock Text="Z:"
-                       FontSize="25" Width="18"
+                    Margin="60,85,298,0"
+                    Height="29">
+            <TextBlock Text="FROM:"
+                       FontSize="25" Width="92"
                        Foreground="White"
                        FontFamily="Font/#Dosis"
                        FontWeight="Medium"/>
@@ -163,18 +163,16 @@
 
         <StackPanel Grid.Row="1" 
                     VerticalAlignment="Top"
-                    Margin="105,80,46,0"
-                    Height="30"
-                    Width="300">
-            <ComboBox Height="30" Width="300" x:Name="Beginning" ItemsSource="{Binding Cities}"/>
+                    Margin="157,85,0,0"
+                    Height="30">
+            <ComboBox Height="30" Width="294" x:Name="Beginning" ItemsSource="{Binding Cities}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" 
                     VerticalAlignment="Top"
-                    Margin="105,125,45,0"
-                    Height="30"
-                    Width="300">
-            <ComboBox Height="30" Width="300" x:Name="Final" ItemsSource="{Binding Cities}"/>
+                    Margin="157,125,0,0"
+                    Height="30">
+            <ComboBox Height="30" Width="293" x:Name="Final" ItemsSource="{Binding Cities}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" 
@@ -183,7 +181,7 @@
                     Height="52">
             <TextBlock Text="Departure"
                         Width="147"
-                       FontSize="35"
+                       FontSize="30"
                        Foreground="White"
                        FontFamily="Font/#Dosis"
                        FontWeight="Bold" Height="51"/>
@@ -219,11 +217,11 @@
 
         <StackPanel Grid.Row="1" 
                     VerticalAlignment="Top"
-                    Margin="14,327,344,0"
+                    Margin="14,327,332,0"
                     Height="40">
             <TextBlock Text="Type of"
-                        Width="92"
-                       FontSize="30"
+                        Width="104"
+                       FontSize="28"
                        Foreground="White"
                        FontFamily="Font/#Dosis"
                        FontWeight="Bold" Height="40"/>
@@ -248,7 +246,7 @@
                     Height="33">
             <TextBlock Text="discount:"
                         Width="71"
-                       FontSize="20"
+                       FontSize="18"
                        Foreground="White"
                        FontFamily="Font/#Dosis"
                        FontWeight="Medium" Height="26"/>
@@ -503,10 +501,10 @@
         </Grid>
         <StackPanel Grid.Row="1" 
             VerticalAlignment="Top"
-            Margin="60,121,350,0"
+            Margin="60,121,298,0"
             Height="30">
-            <TextBlock Text="DO:"
-                FontSize="25" Width="34"
+            <TextBlock Text="TO:"
+                FontSize="25" Width="91"
                 Foreground="White"
                 FontFamily="Font/#Dosis"
                 FontWeight="Medium"/>
