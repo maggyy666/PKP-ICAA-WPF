@@ -4,161 +4,154 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pociag"
-        xmlns:Iconpack="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         Title="Register" Height="500" Width="900"
         AllowsTransparency="True" Background="Transparent"
         WindowStyle="None" ResizeMode="NoResize"
         MouseDown="Window_OnMouseDown"
         WindowStartupLocation="CenterScreen">
+
     <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-            <!-- Top bar -->
-            <Border Grid.Row="0" CornerRadius="20" Grid.RowSpan="3">
-                <Border.Background>
-                    <LinearGradientBrush>
-                        <GradientStop Color="#181735" Offset="0.60"/>
-                        <GradientStop Color="#0036FF" Offset="0.20"/>
-                    </LinearGradientBrush>
-                </Border.Background>
-                <!-- Logo/title -->
-                <StackPanel VerticalAlignment="Center" Height="500">
-                    <Image Source="Images/pociag1.png" Width="120"/>
-                    <TextBlock Text="PKP ICAA"
-                               FontWeight="Light" 
-                               FontFamily="helvetica"
-                               FontSize="40"
-                               Foreground="White"
-                               HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Border>
+        <!-- Top bar -->
+        <Border Grid.Row="0" CornerRadius="20" Grid.RowSpan="3">
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="#181735" Offset="0.60"/>
+                    <GradientStop Color="#0036FF" Offset="0.20"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <!-- Logo/title -->
+            <StackPanel VerticalAlignment="Center" Height="500">
+                <Image Source="Images/pociag1.png" Width="120"/>
+                <TextBlock Text="PKP ICAA"
+                           FontWeight="Light" 
+                           FontFamily="helvetica"
+                           FontSize="40"
+                           Foreground="White"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
 
-            <!-- Registration fields -->
-            <StackPanel Grid.Row="1" Margin="145,250,98,20">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+        <!-- Registration fields -->
+        <StackPanel Grid.Row="1" Margin="145,250,98,120" Grid.RowSpan="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <!-- Username -->
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <TextBlock Text="Username:" 
-                                   VerticalAlignment="Center"
-                                   Foreground="White"
-                                   FontFamily="Font/#Dosis"
-                                   Margin="0,0,10,0"/>
-                        <TextBox x:Name="UsernameTextBox"
-                                 FontFamily="Font/#Dosis"
-                                 FontWeight="Light"
-                                 Text="Username"
-                                 FontSize="20"
-                                 Foreground="Gray"  
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 Width="200"
-                                 HorizontalContentAlignment="Left"
-                                 Opacity="0.5"
-                                 GotFocus="RemoveText"
-                                 LostFocus="AddText"/>
-                    </StackPanel>
-                    <Border Width="250" Height="2" Background="White" Opacity="0.5" Margin="-20,23,29,0" VerticalAlignment="Top"/>
-
-                    <!-- Email -->
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="161,0,0,0">
-                        <TextBlock Text="Email:" 
-                                   VerticalAlignment="Center"
-                                   Foreground="White"
-                                   FontFamily="Font/#Dosis"
-                                   Margin="0,0,32,0"/>
-                        <TextBox x:Name="EmailTextBox"
-                                 FontFamily="Font/#Dosis"
-                                 FontWeight="Light"
-                                 Text="Email"
-                                 FontSize="20"
-                                 Foreground="Gray"  
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 Width="200"
-                                 HorizontalContentAlignment="Left"
-                                 Opacity="0.5"
-                                 GotFocus="RemoveText"
-                                 LostFocus="AddText"/>
-                    </StackPanel>
-                    <Border Grid.Column="1" Width="250" Height="2" Background="White" Opacity="0.5" Margin="88,23,-17,0"/>
-                </Grid>
-
-                <!-- Password -->
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0" Width="174">
-                    <TextBlock Text="Password:" 
+                <!-- Username -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Text="Username:" 
                                VerticalAlignment="Center"
                                Foreground="White"
                                FontFamily="Font/#Dosis"
                                Margin="0,0,10,0"/>
-                    <PasswordBox x:Name="PasswordBox"
-                                 FontFamily="Font/#Dosis"
-                                 FontWeight="Light"
-                                 Password="Password"
-                                 FontSize="20"
-                                 Foreground="Gray"  
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 Width="159"
-                                 HorizontalContentAlignment="Left"
-                                 Opacity="0.5"
-                                 GotFocus="RemovePasswordText"
-                                 LostFocus="AddPasswordText"/>
+                    <TextBox x:Name="UsernameTextBox"
+                             FontFamily="Font/#Dosis"
+                             FontWeight="Light"
+                             Text="Username"
+                             FontSize="20"
+                             Foreground="Gray"  
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Width="200"
+                             HorizontalContentAlignment="Left"
+                             Opacity="0.5"
+                             GotFocus="RemoveText"
+                             LostFocus="AddText"/>
                 </StackPanel>
-                <Border Width="257" Height="2" Background="White" Opacity="0.5"/>
+                <Border Width="250" Height="2" Background="White" Opacity="0.5" Margin="-20,23,29,0" VerticalAlignment="Top"/>
 
-                <!-- Discount -->
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0" Width="400">
-                    <TextBlock Text="Discount:" 
+                <!-- Email -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="161,0,0,0">
+                    <TextBlock Text="Email:" 
                                VerticalAlignment="Center"
                                Foreground="White"
                                FontFamily="Font/#Dosis"
-                               Margin="0,0,10,0"/>
-                    <ComboBox x:Name="DiscountComboBox"
-                              FontFamily="Font/#Dosis"
-                              FontWeight="Light"
-                              FontSize="20"
-                              Foreground="Gray"
-                              Background="Transparent"
-                              BorderThickness="0"
-                              Width="200"
-                              HorizontalContentAlignment="Left"
-                              Opacity="0.5"
-                              ItemsSource="{Binding Discounts}">
-                        <ComboBoxItem Content="No Discount"/>
-                        <ComboBoxItem Content="Student Discount"/>
-                        <ComboBoxItem Content="Senior Discount"/>
-                        <ComboBoxItem Content="Military Discount"/>
-                    </ComboBox>
+                               Margin="0,0,32,0"/>
+                    <TextBox x:Name="EmailTextBox"
+                             FontFamily="Font/#Dosis"
+                             FontWeight="Light"
+                             Text="Email"
+                             FontSize="20"
+                             Foreground="Gray"  
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Width="200"
+                             HorizontalContentAlignment="Left"
+                             Opacity="0.5"
+                             GotFocus="RemoveText"
+                             LostFocus="AddText"/>
                 </StackPanel>
-                <Border Width="400" Height="2" Background="White" Opacity="0.5"/>
-            </StackPanel>
+                <Border Grid.Column="1" Width="250" Height="2" Background="White" Opacity="0.5" Margin="88,23,-17,0"/>
+            </Grid>
 
-            <!-- TextBlock na komunikaty -->
-            <TextBlock x:Name="MessageTextBlock"
-                       Grid.Row="2"
-                       FontFamily="Font/#Dosis"
-                       FontSize="16"
-                       Foreground="White"
-                       HorizontalAlignment="Center"
-                       Margin="10,0,10,10"
-                       TextAlignment="Center"/>
-
-            <!-- Register and Back buttons -->
-            <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,20,0,0" Width="300" Height="136">
-                <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="REGISTER" Click="RegisterButton_Click"/>
-                <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="BACK" Margin="10" Click="CloseButton_Click"/>
+            <!-- Password -->
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0" Width="174">
+                <TextBlock Text="Password:" 
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontFamily="Font/#Dosis"
+                           Margin="0,0,10,0"/>
+                <PasswordBox x:Name="PasswordBox"
+                             FontFamily="Font/#Dosis"
+                             FontWeight="Light"
+                             Password="Password"
+                             FontSize="20"
+                             Foreground="Gray"  
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Width="159"
+                             HorizontalContentAlignment="Left"
+                             Opacity="0.5"
+                             GotFocus="RemovePasswordText"
+                             LostFocus="AddPasswordText"/>
             </StackPanel>
-        </Grid>
+            <Border Width="257" Height="2" Background="White" Opacity="0.5"/>
+
+            <!-- Discount -->
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0" Width="400">
+                <TextBlock Text="Discount:" 
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontFamily="Font/#Dosis"
+                           Margin="0,0,10,0"/>
+                <ComboBox x:Name="DiscountComboBox"
+                          FontFamily="Font/#Dosis"
+                          FontWeight="Light"
+                          FontSize="20"
+                          Foreground="White"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          Width="200"
+                          HorizontalContentAlignment="Left"
+                          Opacity="1"
+                          ItemsSource="{Binding Discounts}"/>
+            </StackPanel>
+            <Border Width="400" Height="0.5" Background="White" Opacity="0.5"/>
+        </StackPanel>
+
+        <!-- TextBlock na komunikaty -->
+        <TextBlock x:Name="MessageTextBlock"
+                   Grid.Row="2"
+                   FontFamily="Font/#Dosis"
+                   FontSize="16"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   Margin="10,0,10,10"
+                   TextAlignment="Center"/>
+
+        <!-- Register and Back buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,20,0,0" Width="300" Height="136">
+            <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="REGISTER" Click="RegisterButton_Click"/>
+            <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="BACK" Margin="10" Click="CloseButton_Click"/>
+        </StackPanel>
     </Grid>
 </Window>
