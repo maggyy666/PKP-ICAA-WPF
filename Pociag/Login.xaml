@@ -26,10 +26,58 @@
                 To="0"
                 Duration="0:0:0.2" />
         </Storyboard>
+
+        <!-- Styl dla zaokrąglonych przycisków -->
+        <Style x:Key="StyledButton" TargetType="Button">
+            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#FE6584" Offset="0.0"/>
+                        <GradientStop Color="#FF4C70" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="12">
+                            <!-- Zaokrąglenie rogów -->
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF4C70" Offset="0.0"/>
+                                <GradientStop Color="#FE6584" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Dodajemy wiersz na navbar -->
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -37,7 +85,48 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.RowSpan="4" CornerRadius="20">
+        <!-- Navbar -->
+        <Grid Background="#0F0F2D" Height="50" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <!-- Kolumna na logo -->
+                <ColumnDefinition Width="*"/>
+                <!-- Kolumna wypełniająca -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Kolumna na przyciski -->
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0" Margin="10,0">
+                <Image Source="/Images/pociag1.png" Width="40" Height="40" Margin="0,5"/>
+                <TextBlock Text="PKP ICAA"
+                           VerticalAlignment="Center"
+                           FontFamily="Font/#Dosis"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           Margin="10,0,0,0"/>
+            </StackPanel>
+            <TextBlock x:Name="UsernameTextBlock" 
+           Text="Guest" 
+           VerticalAlignment="Center"
+           HorizontalAlignment="Center"
+           Grid.Column="1"
+           FontFamily="Font/#Dosis"
+           FontSize="16"
+           FontWeight="Medium"
+           Foreground="White"
+           Margin="0,0,10,0"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,10,0">
+                <Button Content="Home"
+                        Style="{StaticResource StyledButton}"
+                        Click="HomeButton_Click"/>
+                <Button Content="Exit"
+                        Style="{StaticResource StyledButton}"
+                        Click="CloseButton_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.RowSpan="4" CornerRadius="20" Grid.Row="1">
             <Border.Background>
                 <LinearGradientBrush>
                     <GradientStop Color="#181735" Offset="0.45"/>
@@ -46,7 +135,7 @@
             </Border.Background>
         </Border>
 
-        <StackPanel VerticalAlignment="Center" Grid.Row="0">
+        <StackPanel VerticalAlignment="Center" Grid.Row="1">
             <Image Source="Images/pociag1.png" Width="120"/>
             <TextBlock Text="PKP ICAA"
                        FontWeight="Light" 
@@ -56,7 +145,7 @@
                        HorizontalAlignment="Center"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="2">
             <StackPanel Orientation="Horizontal" Width="251">
                 <TextBox Name="LoginTextBox"
                          FontFamily="Font/#Dosis"
@@ -65,7 +154,7 @@
                          FontSize="20"
                          HorizontalAlignment="Left"
                          Foreground="Gray" 
-                    Background="Transparent"
+                         Background="Transparent"
                          BorderThickness="0"
                          Width="235"
                          HorizontalContentAlignment="Left"
@@ -88,7 +177,7 @@
                              FontSize="20"
                              HorizontalAlignment="Left"
                              Foreground="Gray"  
-                    Background="Transparent"
+                             Background="Transparent"
                              BorderThickness="0"
                              Width="235"
                              HorizontalContentAlignment="Left"
@@ -106,7 +195,7 @@
 
         <!-- TextBlock na komunikaty -->
         <TextBlock x:Name="MessageTextBlock"
-                   Grid.Row="2"
+                   Grid.Row="3"
                    FontFamily="Font/#Dosis"
                    FontSize="16"
                    Foreground="White"
@@ -114,12 +203,12 @@
                    Margin="10,0,10,10"
                    TextAlignment="Center"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="243,10,243,58" Width="414" RenderTransformOrigin="0.494,0.468">
-            <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="LOGIN" Margin="60,0,60,0" Click="LoginButton_Click"/>
-            <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="BACK" Margin="60,0,60,0" Click="CloseButton_Click"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="243,10,243,58" Width="414" RenderTransformOrigin="0.494,0.468">
+            <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="LOGIN" Margin="60,0,60,0" Style="{StaticResource StyledButton}" Click="LoginButton_Click"/>
+            <Button Width="100" FontFamily="Font/#Dosis" Height="40" Content="BACK" Margin="60,0,60,0" Style="{StaticResource StyledButton}" Click="BackButton_Click"/>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="226,58,226,0" Width="447">
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Margin="226,58,226,0" Width="447">
             <TextBlock Text="You don't have an account yet? "
                        VerticalAlignment="Center"
                        FontFamily="Font/#Dosis"
