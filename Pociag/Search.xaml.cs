@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
@@ -10,170 +10,97 @@ namespace Pociag
 {
     public partial class Search : Window
     {
-        private Dictionary<string, Dictionary<string, int>> priceList;
+        private Dictionary<string, Dictionary<string, int>> distances;
         private List<string> cities;
         private List<string> discounts;
+
+        private readonly string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "database.db");
 
         public Search()
         {
             InitializeComponent();
-            LoadCitiesAndDiscounts();
-            InitializePriceList();
+            LoadCitiesFromDatabase();
+            LoadDiscountsFromDatabase();
+            LoadDistancesFromDatabase();
 
             Beginning.ItemsSource = cities;
             Final.ItemsSource = cities;
             _Status.ItemsSource = discounts;
         }
 
-        private void LoadCitiesAndDiscounts()
+        private void LoadCitiesFromDatabase()
         {
-            cities = new List<string> { "Warsaw", "Krakow", "Wroclaw", "Poznan", "Gdansk", "Gdynia", "Rzeszow", "Opole", "Lodz", "Szczecin" };
-            discounts = new List<string> { "None", "Student", "Senior", "Disabled", "Guide", "BlindNonSelfSufficient", "ChildrenWithDisability", "DisabledStudents", "ParentGuardian", "NonProfessionalMilitaryService", "CivilianWarBlindVictims", "Students", "AbroadStudents", "ForeignLanguageTeachers", "SocialServiceWorkers", "DoctoralStudents", "LargeFamilyCard", "Blind", "NonSelfSufficient", "ChildrenUntil24", "PolishLanguageStudents", "EuropeanSchoolStudents", "Teachers", "Other" };
+            cities = new List<string>();
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+                string query = "SELECT CityName FROM Cities";
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            cities.Add(reader["CityName"].ToString());
+                        }
+                    }
+                }
+            }
         }
 
-        private void InitializePriceList()
+        private void LoadDiscountsFromDatabase()
         {
-            priceList = new Dictionary<string, Dictionary<string, int>>();
-
-            priceList["Warsaw"] = new Dictionary<string, int>
-{
-    { "Krakow", 250 },
-    { "Wroclaw", 300 },
-    { "Poznan", 200 },
-    { "Gdansk", 400 },
-    { "Gdynia", 450 },
-    { "Rzeszow", 350 },
-    { "Opole", 280 },
-    { "Lodz", 150 },
-    { "Szczecin", 400 }
-};
-
-            priceList["Krakow"] = new Dictionary<string, int>
-{
-    { "Warsaw", 250 },
-    { "Wroclaw", 200 },
-    { "Poznan", 300 },
-    { "Gdansk", 500 },
-    { "Gdynia", 450 },
-    { "Rzeszow", 120 },
-    { "Opole", 180 },
-    { "Lodz", 250 },
-    { "Szczecin", 550 }
-};
-
-            priceList["Wroclaw"] = new Dictionary<string, int>
-{
-    { "Warsaw", 300 },
-    { "Krakow", 200 },
-    { "Poznan", 100 },
-    { "Gdansk", 450 },
-    { "Gdynia", 500 },
-    { "Rzeszow", 300 },
-    { "Opole", 100 },
-    { "Lodz", 200 },
-    { "Szczecin", 400 }
-};
-
-            priceList["Poznan"] = new Dictionary<string, int>
-{
-    { "Warsaw", 200 },
-    { "Krakow", 300 },
-    { "Wroclaw", 100 },
-    { "Gdansk", 350 },
-    { "Gdynia", 400 },
-    { "Rzeszow", 220 },
-    { "Opole", 150 },
-    { "Lodz", 150 },
-    { "Szczecin", 300 }
-};
-
-            priceList["Gdansk"] = new Dictionary<string, int>
-{
-    { "Warsaw", 400 },
-    { "Krakow", 500 },
-    { "Wroclaw", 450 },
-    { "Poznan", 350 },
-    { "Gdynia", 50 },
-    { "Rzeszow", 450 },
-    { "Opole", 420 },
-    { "Lodz", 400 },
-    { "Szczecin", 250 }
-};
-
-            priceList["Gdynia"] = new Dictionary<string, int>
-{
-    { "Warsaw", 450 },
-    { "Krakow", 450 },
-    { "Wroclaw", 500 },
-    { "Poznan", 400 },
-    { "Gdansk", 50 },
-    { "Rzeszow", 500 },
-    { "Opole", 450 },
-    { "Lodz", 450 },
-    { "Szczecin", 300 }
-};
-
-            priceList["Rzeszow"] = new Dictionary<string, int>
-{
-    { "Warsaw", 350 },
-    { "Krakow", 120 },
-    { "Wroclaw", 300 },
-    { "Poznan", 220 },
-    { "Gdansk", 450 },
-    { "Gdynia", 500 },
-    { "Opole", 280 },
-    { "Lodz", 320 },
-    { "Szczecin", 550 }
-};
-
-            priceList["Opole"] = new Dictionary<string, int>
-{
-    { "Warsaw", 280 },
-    { "Krakow", 180 },
-    { "Wroclaw", 100 },
-    { "Poznan", 150 },
-    { "Gdansk", 420 },
-    { "Gdynia", 450 },
-    { "Rzeszow", 280 },
-    { "Lodz", 200 },
-    { "Szczecin", 400 }
-};
-
-            priceList["Lodz"] = new Dictionary<string, int>
-{
-    { "Warsaw", 150 },
-    { "Krakow", 250 },
-    { "Wroclaw", 200 },
-    { "Poznan", 150 },
-    { "Gdansk", 400 },
-    { "Gdynia", 450 },
-    { "Rzeszow", 320 },
-    { "Opole", 200 },
-    { "Szczecin", 400 }
-};
-
-            priceList["Szczecin"] = new Dictionary<string, int>
-{
-    { "Warsaw", 400 },
-    { "Krakow", 550 },
-    { "Wroclaw", 400 },
-    { "Poznan", 300 },
-    { "Gdansk", 250 },
-    { "Gdynia", 300 },
-    { "Rzeszow", 550 },
-    { "Opole", 400 },
-    { "Lodz", 400 }
-};
-
-
-
-            foreach (var city in cities)
+            discounts = new List<string>();
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
             {
-                foreach (var otherCity in cities)
+                connection.Open();
+                string query = "SELECT Description FROM Discounts";
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {
-                    if (city != otherCity && !priceList[city].ContainsKey(otherCity))
+                    using (SQLiteDataReader reader = command.ExecuteReader())
                     {
-                        priceList[city][otherCity] = priceList[otherCity][city];
+                        while (reader.Read())
+                        {
+                            discounts.Add(reader["Description"].ToString());
+                        }
+                    }
+                }
+            }
+        }
+
+        private void LoadDistancesFromDatabase()
+        {
+            distances = new Dictionary<string, Dictionary<string, int>>();
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+                string query = @"
+                SELECT 
+                    c1.CityName AS CityFrom, 
+                    c2.CityName AS CityTo, 
+                    d.Distance 
+                FROM 
+                    Distances d
+                    JOIN Cities c1 ON d.CityFromId = c1.Id
+                    JOIN Cities c2 ON d.CityToId = c2.Id";
+
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string cityFrom = reader["CityFrom"].ToString();
+                            string cityTo = reader["CityTo"].ToString();
+                            int distance = int.Parse(reader["Distance"].ToString());
+
+                            if (!distances.ContainsKey(cityFrom))
+                            {
+                                distances[cityFrom] = new Dictionary<string, int>();
+                            }
+
+                            distances[cityFrom][cityTo] = distance;
+                        }
                     }
                 }
             }
@@ -191,67 +118,43 @@ namespace Pociag
                 return;
             }
 
-            if (!priceList.ContainsKey(startingCity) || !priceList[startingCity].ContainsKey(finalCity))
-            {
-                MessageBox.Show("There is no connection between selected cities!");
-                return;
-            }
             if (startingCity == finalCity)
             {
                 MessageBox.Show("Starting city and final city cannot be the same!");
                 return;
             }
 
-            int basePrice = priceList[startingCity][finalCity];
-            double discountPercentage = GetDiscountPercentage(selectedDiscount);
-            double finalPrice = basePrice * (1 - (discountPercentage / 100));
-
-            MessageBox.Show($"Ticket price: {finalPrice} PLN");
-        }
-
-        private double GetDiscountPercentage(string selectedDiscount)
-        {
-            switch (selectedDiscount)
+            if (!distances.ContainsKey(startingCity) || !distances[startingCity].ContainsKey(finalCity))
             {
-                case "None":
-                    return 0;
-                case "Student":
-                    return 50;
-                case "Senior":
-                    return 30;
-                case "Disabled":
-                    return 20;
-                case "Guide":
-                    return 95;
-                case "BlindNonSelfSufficient":
-                    return 93;
-                case "ChildrenWithDisability":
-                case "DisabledStudents":
-                case "ParentGuardian":
-                    return 78;
-                case "NonProfessionalMilitaryService":
-                case "CivilianWarBlindVictims":
-                    return 78;
-                case "Students":
-                case "AbroadStudents":
-                case "ForeignLanguageTeachers":
-                case "SocialServiceWorkers":
-                case "DoctoralStudents":
-                    return 51;
-                case "LargeFamilyCard":
-                    return 49;
-                case "Blind":
-                case "NonSelfSufficient":
-                case "ChildrenUntil24":
-                case "PolishLanguageStudents":
-                case "EuropeanSchoolStudents":
-                    return 37;
-                case "Teachers":
-                    return 33;
-                default:
-                    return 0;
+                MessageBox.Show("There is no connection between selected cities!");
+                return;
             }
 
+            int distance = distances[startingCity][finalCity];
+            double basePrice = distance * 0.5;
+            double discountPercentage = GetDiscountPercentageFromDatabase(selectedDiscount);
+            double finalPrice = basePrice * (1 - (discountPercentage / 100));
+
+            MessageBox.Show($"Ticket price: {finalPrice:F2} PLN");
+        }
+
+        private double GetDiscountPercentageFromDatabase(string discountDescription)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+                string query = "SELECT DiscountPercent FROM Discounts WHERE Description = @Description";
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Description", discountDescription);
+                    var result = command.ExecuteScalar();
+                    if (result != null)
+                    {
+                        return Convert.ToDouble(result);
+                    }
+                }
+            }
+            return 0; 
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -262,6 +165,7 @@ namespace Pociag
                 Close();
             }
         }
+
         private void Window_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -358,9 +262,6 @@ namespace Pociag
             mainWindow.Show();
             Close();
         }
+
     }
 }
-
-
-
-
