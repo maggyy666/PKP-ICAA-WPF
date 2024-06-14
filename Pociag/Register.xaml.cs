@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SQLite;
 using System.IO;
+using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,17 +16,21 @@ namespace Pociag
         public Register()
         {
             InitializeComponent();
-            InitializeDatabase();  // Inicjalizujemy bazę danych przy uruchomieniu okna
+            InitializeDatabase();
+            this.Loaded += Window_Loaded;
             GetDiscountList();
+            UpdateUsernameDisplay();
         }
-
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateUsernameDisplay();
+        }
         private void InitializeDatabase()
         {
             using (SQLiteConnection conn = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
             {
                 conn.Open();
 
-                // Sprawdzanie i tworzenie tabeli Discounts
                 string checkDiscountsTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='Discounts';";
                 using (SQLiteCommand checkDiscountsCmd = new SQLiteCommand(checkDiscountsTableQuery, conn))
                 {
@@ -44,7 +49,6 @@ namespace Pociag
                     }
                 }
 
-                // Sprawdzanie i tworzenie tabeli Users
                 string checkUsersTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='Users';";
                 using (SQLiteCommand checkUsersCmd = new SQLiteCommand(checkUsersTableQuery, conn))
                 {
@@ -112,6 +116,12 @@ namespace Pociag
                 }
             }
         }
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            Window.GetWindow(this).Close();
+        }
 
         private void AddUserToDatabase(string username, string email, string password, string discountDescription)
         {
@@ -124,43 +134,45 @@ namespace Pociag
                     {
                         connection.Open();
 
-                        // Pobieramy ID zniżki na podstawie opisu
-                        int discountId;
-                        string discountQuery = "SELECT Id FROM Discounts WHERE Description = @Description";
-                        using (SQLiteCommand discountCommand = new SQLiteCommand(discountQuery, connection))
+                        using (SQLiteTransaction transaction = connection.BeginTransaction())
                         {
-                            discountCommand.Parameters.AddWithValue("@Description", discountDescription);
-                            var result = discountCommand.ExecuteScalar();
-                            if (result != null)
+                            int discountId;
+                            string discountQuery = "SELECT Id FROM Discounts WHERE Description = @Description";
+                            using (SQLiteCommand discountCommand = new SQLiteCommand(discountQuery, connection, transaction))
                             {
-                                discountId = Convert.ToInt32(result);
+                                discountCommand.Parameters.AddWithValue("@Description", discountDescription);
+                                var result = discountCommand.ExecuteScalar();
+                                if (result != null)
+                                {
+                                    discountId = Convert.ToInt32(result);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Selected discount not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    return;
+                                }
                             }
-                            else
+
+                            string query = "INSERT INTO Users (Username, Email, Password, DiscountId) VALUES (@Username, @Email, @Password, @DiscountId)";
+                            using (SQLiteCommand command = new SQLiteCommand(query, connection, transaction))
                             {
-                                MessageBox.Show("Selected discount not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                                return;
+                                command.Parameters.AddWithValue("@Username", username);
+                                command.Parameters.AddWithValue("@Email", email);
+                                command.Parameters.AddWithValue("@Password", password);
+                                command.Parameters.AddWithValue("@DiscountId", discountId);
+
+                                command.ExecuteNonQuery();
                             }
-                        }
 
-                        // Dodajemy użytkownika do tabeli Users z DiscountId
-                        string query = "INSERT INTO Users (Username, Email, Password, DiscountId) VALUES (@Username, @Email, @Password, @DiscountId)";
-                        using (SQLiteCommand command = new SQLiteCommand(query, connection))
-                        {
-                            command.Parameters.AddWithValue("@Username", username);
-                            command.Parameters.AddWithValue("@Email", email);
-                            command.Parameters.AddWithValue("@Password", password);
-                            command.Parameters.AddWithValue("@DiscountId", discountId);
-
-                            command.ExecuteNonQuery();
-                            MessageBox.Show("User registered successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                            return;
+                            transaction.Commit(); // Zatwierdzamy transakcję
                         }
                     }
+                    return;
                 }
                 catch (SQLiteException ex) when (ex.Message.Contains("database is locked"))
                 {
                     retryCount--;
-                    System.Threading.Thread.Sleep(200); // Odczekaj przed ponowieniem próby
+                    System.Threading.Thread.Sleep(200);
                 }
                 catch (SQLiteException ex)
                 {
@@ -170,6 +182,7 @@ namespace Pociag
             }
             MessageBox.Show("Operation failed after multiple attempts due to database being locked.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
 
 
         private void GetDiscountList()
@@ -211,6 +224,10 @@ namespace Pociag
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void BackButton_Click( object sender, RoutedEventArgs e)
         {
             Login loginWindow = new Login();
             loginWindow.Show();
@@ -278,5 +295,15 @@ namespace Pociag
                 passwordBox.Opacity = 0.5;
             }
         }
+        private void UpdateUsernameDisplay()
+        {
+            if (UsernameTextBlock != null)
+            {
+                UsernameTextBlock.Text = UserSession.Username;
+            }
+        }
+
+
+
     }
 }
