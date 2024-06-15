@@ -15,7 +15,12 @@ namespace Pociag
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
             
+        }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateUsernameDisplay();
         }
 
         private void Window_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -50,9 +55,9 @@ namespace Pociag
             searchWindow.Show();
             this.Close();
         }
-        private void CreditsButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateUsernameDisplay()
         {
-            MessageBox.Show(" Author: Jakub Czyż \n Programming IV \n Summer semester 2023 \n 2nd year Computer science \n WEAiI, Opole University of Technology");
+            UsernameTextBlock.Text = UserSession.Username;
         }
    
     }
