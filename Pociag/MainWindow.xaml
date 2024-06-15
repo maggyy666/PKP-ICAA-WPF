@@ -8,14 +8,15 @@
         Title="MainWindow" Height="500" Width="900"
         WindowStyle="None" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        MouseDown="Window_OnMouseDown"
-        >
+        MouseDown="Window_OnMouseDown">
+
     <Window.Background>
         <LinearGradientBrush>
             <GradientStop Color="#0036FF" Offset="0.1"/>
             <GradientStop Color="#181735" Offset="0.3"/>
         </LinearGradientBrush>
     </Window.Background>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -27,14 +28,8 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-
-
-
-        <Grid
-            Background="#0F0F2D"
-              Grid.ColumnSpan="2"
-              >
-            
+        <!-- Navbar -->
+        <Grid Background="#0F0F2D" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="53*"></ColumnDefinition>
                 <ColumnDefinition Width="53*"></ColumnDefinition>
@@ -53,84 +48,68 @@
                 <ColumnDefinition Width="77*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-
-
             <TextBlock Text="PKP ICAA"
                        Foreground="White"
                        Grid.Column="1"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Font/#Dosis"
-                       FontWeight="Medium" Height="16" Width="44">
+                       FontWeight="Medium" 
+                       Height="16" Width="44" />
 
-
-
-
-            </TextBlock>
-
-
+            <TextBlock x:Name="UsernameTextBlock"
+                       Text="Guest"
+                       Foreground="White"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Grid.Column="7"
+                       FontFamily="Font/#Dosis"
+                       FontWeight="Medium" 
+                       FontSize="16" />
 
             <Button Content="Exit"
-                        Foreground="White"
-                        FontSize="10"
-                        FontWeight="Medium"
-                        Margin="58,0,12,0"
+                    Foreground="White"
+                    FontSize="10"
+                    FontWeight="Medium"
+                    Margin="58,0,12,0"
                     Grid.Column="12"
                     Grid.ColumnSpan="3"
                     Click="CloseButton_Click">
                 <Button.Style>
                     <Style TargetType="Button">
-                        <Setter Property="TextElement.FontFamily" Value="Font/#Dosis">
-                        </Setter>
-                        <Setter Property="Background" Value="#FE6584"></Setter>
-                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="TextElement.FontFamily" Value="Font/#Dosis"/>
+                        <Setter Property="Background" Value="#FE6584"/>
+                        <Setter Property="Cursor" Value="Hand"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#FF4C70">
-
-                                </Setter>
+                                <Setter Property="Background" Value="#FF4C70"/>
                             </Trigger>
-
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
-
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border Width="85" Height="20"
-                                    CornerRadius="8"
-                                    Background="{TemplateBinding Background}">
+                                CornerRadius="8"
+                                Background="{TemplateBinding Background}">
                             <ContentPresenter VerticalAlignment="Center"
-                                                  HorizontalAlignment="Center" >
-
-                            </ContentPresenter>
+                                              HorizontalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Button.Template>
-
-
-
-
             </Button>
-
-
-
-
         </Grid>
 
-
+        <!-- Rest of the layout -->
         <StackPanel Grid.Row="1"
                     VerticalAlignment="Center"
                     Margin="60">
             <StackPanel Orientation="Horizontal"
                         Margin="0,0,0,20">
-                
-        
-                
                 <Image x:Name="LogoImg"
-                    Width="100" Height="100"
+                       Width="100" Height="100"
                        Source="/Images/pociag1.png"
-                       RenderOptions.BitmapScalingMode="Fant"></Image>
+                       RenderOptions.BitmapScalingMode="Fant"/>
                 <TextBlock Text="PKP ICAA"
                            x:Name="Logo"
                            Foreground="White"
@@ -138,45 +117,32 @@
                            FontWeight="Medium"
                            VerticalAlignment="Center"
                            FontFamily="Font/#Dosis"
-                           Margin="10,0,0,0">
-
-
-                </TextBlock>
-
+                           Margin="10,0,0,0"/>
             </StackPanel>
-
 
             <StackPanel x:Name="Description">
                 <TextBlock Text="Your reliable"
-                       Foreground="White"
-                       FontSize="25"
-                       FontWeight="Medium"
-                       FontFamily="Font/#Dosis">
-
-                </TextBlock>
+                           Foreground="White"
+                           FontSize="25"
+                           FontWeight="Medium"
+                           FontFamily="Font/#Dosis"/>
                 <TextBlock Text="Travel"
-                       Foreground="White"
-                       FontSize="25"
-                       FontWeight="Medium"
-                       FontFamily="Font/#Dosis">
-
-                </TextBlock>
+                           Foreground="White"
+                           FontSize="25"
+                           FontWeight="Medium"
+                           FontFamily="Font/#Dosis"/>
                 <TextBlock Text="Choice"
-                       Foreground="White"
-                       FontSize="25"
-                       FontWeight="Medium"
-                       FontFamily="Font/#Dosis">
-
-                </TextBlock>
+                           Foreground="White"
+                           FontSize="25"
+                           FontWeight="Medium"
+                           FontFamily="Font/#Dosis"/>
                 <TextBlock Text="We help you in your everyday journeys so that you can change the world with us."
-                       Foreground="White"
-                       FontSize="12"
-                       FontWeight="Medium"
-                       FontFamily="Font/#Dosis"
-                       TextWrapping="Wrap"
-                           Margin="0,10,0,0">
-
-                </TextBlock>
+                           Foreground="White"
+                           FontSize="12"
+                           FontWeight="Medium"
+                           FontFamily="Font/#Dosis"
+                           TextWrapping="Wrap"
+                           Margin="0,10,0,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                         Margin="0,15,0,0">
@@ -188,39 +154,27 @@
                         Click="StartButton_Click">
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis">
-                            </Setter>
-                            <Setter Property="Background" Value="#FE6584"></Setter>
-                            <Setter Property="Cursor" Value="Hand"></Setter>
+                            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis"/>
+                            <Setter Property="Background" Value="#FE6584"/>
+                            <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#FF4C70">
-
-                                    </Setter>
+                                    <Setter Property="Background" Value="#FF4C70"/>
                                 </Trigger>
-
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Width="100" Height="25"
                                     CornerRadius="12"
                                     Background="{TemplateBinding Background}">
                                 <ContentPresenter VerticalAlignment="Center"
-                                                  HorizontalAlignment="Center" >
-
-                                </ContentPresenter>
+                                                  HorizontalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-
-
-
                 </Button>
-
-
                 <Button Content="Join Us!"
                         x:Name="Register"
                         Foreground="White"
@@ -229,55 +183,39 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Padding="10"
-                        Click="OpenLoginWindow_Click"
-                        >
-
+                        Click="OpenLoginWindow_Click">
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis">
-                            </Setter>
-                            <Setter Property="Background" Value="#39385D"></Setter>
-                            <Setter Property="Cursor" Value="Hand"></Setter>
+                            <Setter Property="TextElement.FontFamily" Value="Font/#Dosis"/>
+                            <Setter Property="Background" Value="#39385D"/>
+                            <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#3A3952">
-
-                                    </Setter>
+                                    <Setter Property="Background" Value="#3A3952"/>
                                 </Trigger>
-
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Width="100" Height="25"
                                     CornerRadius="12"
                                     Background="{TemplateBinding Background}">
                                 <ContentPresenter VerticalAlignment="Center"
-                                                  HorizontalAlignment="Center" >
-
-                                </ContentPresenter>
+                                                  HorizontalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
-
-
-
                 </Button>
-
             </StackPanel>
-
-
         </StackPanel>
+
         <Grid Grid.Column="1"
               Grid.RowSpan="2"
               Margin="160,-365,-610,85"
               Panel.ZIndex="-1">
             <Grid.RenderTransform>
-                <RotateTransform Angle="50">
-
-                </RotateTransform>
+                <RotateTransform Angle="50"/>
             </Grid.RenderTransform>
 
             <StackPanel Orientation="Horizontal"
@@ -287,55 +225,35 @@
                             Height="35"
                             Background="#3DDDC2"
                             Margin="150,0,0,0"
-                            CornerRadius="20">
-
-                    </Border>
+                            CornerRadius="20"/>
                     <Border Width="700"
                             Height="35"
                             Background="#FC6586"
                             Margin="0,15,0,0"
-                            CornerRadius="20">
-
-                    </Border>
+                            CornerRadius="20"/>
                     <Border Width="700"
                             Height="35"
                             Background="#383660"
                             Margin="75,15,0,0"
-                            CornerRadius="20">
-
-                    </Border>
+                            CornerRadius="20"/>
                 </StackPanel>
                 <StackPanel>
                     <Border Width="700"
                             Height="35"
                             Background="#3DDDC2"
                             Margin="150,0,0,0"
-                            CornerRadius="20">
-
-                    </Border>
+                            CornerRadius="20"/>
                     <Border Width="700"
                             Height="35"
                             Background="#FC6586"
                             Margin="0,15,0,0"
-                            CornerRadius="20">
-
-                    </Border>
+                            CornerRadius="20"/>
                     <Border Width="700"
                             Height="35"
                             Background="#383660"
                             Margin="75,15,0,0"
-                            CornerRadius="20">
-
-                    </Border>
+                            CornerRadius="20"/>
                 </StackPanel>
-
-
-
-
-
-
-
-
             </StackPanel>
         </Grid>
     </Grid>
