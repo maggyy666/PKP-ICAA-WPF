@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Bson;
-using System;
+﻿using System;
 using System.Data.SQLite;
 using System.IO;
 using System.Windows;
@@ -31,10 +30,6 @@ namespace Pociag
             _connection = new SQLiteConnection($"Data Source={_dbPath};Version=3;");
             _connection.Open();
         }
-        private void Window_Loadded(object sender, RoutedEventArgs e)
-        {
-            UpdateUsernameDisplay();
-        }
 
         private void CreateDatabase()
         {
@@ -46,7 +41,10 @@ namespace Pociag
                     CREATE TABLE Users (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
                         Username TEXT NOT NULL,
-                        Password TEXT NOT NULL
+                        Email TEXT NOT NULL,
+                        Password TEXT NOT NULL,
+                        DiscountId INTEGER,
+                        FOREIGN KEY (DiscountId) REFERENCES Discounts(Id)
                     )";
                 using (var command = new SQLiteCommand(createUserTable, connection))
                 {
@@ -80,14 +78,72 @@ namespace Pociag
 
             if (CheckLoginAndPassword(username, password))
             {
+                int userId = GetUserIdFromDatabase(username);
+                string email = GetEmailFromDatabase(username);
+                var (discountId, selectedDiscount) = GetSelectedDiscountFromDatabase(username);
+
+                // Przekazanie wszystkich wymaganych parametrów do UserSession.Login
+                UserSession.Login(userId, username, email, password, discountId, selectedDiscount);
                 SetMessage("You have logged in successfully!", Colors.Green);
-                // Przejdź do następnego okna lub wykonaj inne czynności
+                UpdateUsernameDisplay();
             }
             else
             {
                 SetMessage("Incorrect username or password.", Colors.Red);
             }
         }
+        private int GetUserIdFromDatabase(string username)
+        {
+            string query = "SELECT Id FROM Users WHERE Username = @Username";
+            using (var command = new SQLiteCommand(query, _connection))
+            {
+                command.Parameters.AddWithValue("@Username", username);
+                return Convert.ToInt32(command.ExecuteScalar());
+            }
+        }
+
+
+
+
+        private string GetEmailFromDatabase(string username)
+        {
+            string query = "SELECT Email FROM Users WHERE Username = @Username";
+            using (var command = new SQLiteCommand(query, _connection))
+            {
+                command.Parameters.AddWithValue("@Username", username);
+                return command.ExecuteScalar()?.ToString() ?? string.Empty;
+            }
+        }
+
+        private (int, string) GetSelectedDiscountFromDatabase(string username)
+        {
+            string query = "SELECT DiscountId FROM Users WHERE Username = @Username";
+            using (var command = new SQLiteCommand(query, _connection))
+            {
+                command.Parameters.AddWithValue("@Username", username);
+                var discountId = Convert.ToInt32(command.ExecuteScalar());
+
+                if (discountId == 0)
+                    return (0, string.Empty);
+
+                string discountQuery = "SELECT Id, Description FROM Discounts WHERE Id = @Id";
+                using (var discountCommand = new SQLiteCommand(discountQuery, _connection))
+                {
+                    discountCommand.Parameters.AddWithValue("@Id", discountId);
+                    using (var reader = discountCommand.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            int id = reader.GetInt32(0);
+                            string description = reader.GetString(1);
+                            return (id, description);
+                        }
+                    }
+                }
+            }
+            return (0, string.Empty);
+        }
+
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
@@ -120,22 +176,17 @@ namespace Pociag
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-            Window.GetWindow(this).Close();
+            this.Close();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            if (mainWindow != null)
-            {
-                mainWindow.Close();
-            }
+            // Nie zamykaj MainWindow przy ładowaniu okna logowania
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // MainWindow mainwindow = new MainWindow();
-            // mainwindow.Show();
+            // Nie zamykaj MainWindow przy zamykaniu okna logowania
         }
 
         private void RemoveText(object sender, RoutedEventArgs e)
@@ -187,12 +238,24 @@ namespace Pociag
             MessageTextBlock.Text = message;
             MessageTextBlock.Foreground = new SolidColorBrush(color);
         }
+
         private void UpdateUsernameDisplay()
         {
-            if(UsernameTextBlock.Text != null)
+            if (UserSession.IsLoggedIn && !string.IsNullOrEmpty(UserSession.Username))
             {
                 UsernameTextBlock.Text = UserSession.Username;
             }
+            else
+            {
+                UsernameTextBlock.Text = "Guest";
+            }
+        }
+
+        private void UsernameTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            UserProfile userProfileWindow = new UserProfile();
+            userProfileWindow.Show();
+            this.Close();
         }
     }
 }
