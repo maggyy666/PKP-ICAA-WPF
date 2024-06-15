@@ -106,16 +106,21 @@
                            Foreground="White"
                            Margin="10,0,0,0"/>
             </StackPanel>
-            <TextBlock x:Name="UsernameTextBlock" 
-           Text="Guest" 
-           VerticalAlignment="Center"
-           HorizontalAlignment="Center"
-           Grid.Column="1"
-           FontFamily="Font/#Dosis"
-           FontSize="16"
-           FontWeight="Medium"
-           Foreground="White"
-           Margin="0,0,10,0"/>
+
+            <TextBlock x:Name="UsernameTextBlock"
+                       Text="Guest"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Grid.Column="1"
+                       FontFamily="Font/#Dosis"
+                       FontSize="16"
+                       FontWeight="Medium"
+                       Foreground="White"
+                       Margin="0,0,10,0"
+                       Cursor="Hand"
+                       MouseLeftButtonDown="UsernameTextBlock_MouseLeftButtonDown"
+                       TextDecorations="Underline"/>
+
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,10,0">
                 <Button Content="Home"
                         Style="{StaticResource StyledButton}"
