@@ -82,7 +82,6 @@ namespace Pociag
                 string email = GetEmailFromDatabase(username);
                 var (discountId, selectedDiscount) = GetSelectedDiscountFromDatabase(username);
 
-                // Przekazanie wszystkich wymaganych parametrów do UserSession.Login
                 UserSession.Login(userId, username, email, password, discountId, selectedDiscount);
                 SetMessage("You have logged in successfully!", Colors.Green);
                 UpdateUsernameDisplay();
@@ -181,12 +180,10 @@ namespace Pociag
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Nie zamykaj MainWindow przy ładowaniu okna logowania
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // Nie zamykaj MainWindow przy zamykaniu okna logowania
         }
 
         private void RemoveText(object sender, RoutedEventArgs e)
@@ -253,8 +250,16 @@ namespace Pociag
 
         private void UsernameTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            UserProfile userProfileWindow = new UserProfile();
-            userProfileWindow.Show();
+            if(UserSession.IsLoggedIn)
+            {
+                UserProfile userProfileWindow = new UserProfile();
+                userProfileWindow.Show();
+            }
+            else
+            {
+                Login loginWindow = new Login();
+                loginWindow.Show();
+            }
             this.Close();
         }
     }
