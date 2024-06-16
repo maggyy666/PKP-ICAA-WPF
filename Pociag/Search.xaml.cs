@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
-using System.Text.Json;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Pociag
 {
@@ -26,84 +27,137 @@ namespace Pociag
             Beginning.ItemsSource = cities;
             Final.ItemsSource = cities;
             _Status.ItemsSource = discounts;
+
+            SetUserDetails();
+        }
+
+        private void SetUserDetails()
+        {
+            UsernameTextBlock.Text = UserSession.Username;
+            if (!string.IsNullOrEmpty(UserSession.SelectedDiscount))
+            {
+                _Status.SelectedItem = UserSession.SelectedDiscount;
+            }
         }
 
         private void LoadCitiesFromDatabase()
         {
             cities = new List<string>();
-            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            int retryCount = 5;
+            while (retryCount > 0)
             {
-                connection.Open();
-                string query = "SELECT CityName FROM Cities";
-                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                try
                 {
-                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
                     {
-                        while (reader.Read())
+                        connection.Open();
+                        string query = "SELECT CityName FROM Cities";
+                        using (var command = new SQLiteCommand(query, connection))
                         {
-                            cities.Add(reader["CityName"].ToString());
+                            using (var reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    cities.Add(reader["CityName"].ToString());
+                                }
+                            }
                         }
                     }
+                    return;
+                }
+                catch (SQLiteException ex) when (ex.Message.Contains("database is locked"))
+                {
+                    retryCount--;
+                    System.Threading.Thread.Sleep(200);
                 }
             }
+            MessageBox.Show("Unable to load cities after multiple attempts due to database being locked.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void LoadDiscountsFromDatabase()
         {
             discounts = new List<string>();
-            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            int retryCount = 5;
+            while (retryCount > 0)
             {
-                connection.Open();
-                string query = "SELECT Description FROM Discounts";
-                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                try
                 {
-                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
                     {
-                        while (reader.Read())
+                        connection.Open();
+                        string query = "SELECT Description FROM Discounts";
+                        using (var command = new SQLiteCommand(query, connection))
                         {
-                            discounts.Add(reader["Description"].ToString());
+                            using (var reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    discounts.Add(reader["Description"].ToString());
+                                }
+                            }
                         }
                     }
+                    return;
+                }
+                catch (SQLiteException ex) when (ex.Message.Contains("database is locked"))
+                {
+                    retryCount--;
+                    System.Threading.Thread.Sleep(200);
                 }
             }
+            MessageBox.Show("Unable to load discounts after multiple attempts due to database being locked.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void LoadDistancesFromDatabase()
         {
             distances = new Dictionary<string, Dictionary<string, int>>();
-            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            int retryCount = 5;
+            while (retryCount > 0)
             {
-                connection.Open();
-                string query = @"
-                SELECT 
-                    c1.CityName AS CityFrom, 
-                    c2.CityName AS CityTo, 
-                    d.Distance 
-                FROM 
-                    Distances d
-                    JOIN Cities c1 ON d.CityFromId = c1.Id
-                    JOIN Cities c2 ON d.CityToId = c2.Id";
-
-                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                try
                 {
-                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
                     {
-                        while (reader.Read())
+                        connection.Open();
+                        string query = @"
+                        SELECT 
+                            c1.CityName AS CityFrom, 
+                            c2.CityName AS CityTo, 
+                            d.Distance 
+                        FROM 
+                            Distances d
+                            JOIN Cities c1 ON d.CityFromId = c1.Id
+                            JOIN Cities c2 ON d.CityToId = c2.Id";
+
+                        using (var command = new SQLiteCommand(query, connection))
                         {
-                            string cityFrom = reader["CityFrom"].ToString();
-                            string cityTo = reader["CityTo"].ToString();
-                            int distance = int.Parse(reader["Distance"].ToString());
-
-                            if (!distances.ContainsKey(cityFrom))
+                            using (var reader = command.ExecuteReader())
                             {
-                                distances[cityFrom] = new Dictionary<string, int>();
-                            }
+                                while (reader.Read())
+                                {
+                                    string cityFrom = reader["CityFrom"].ToString();
+                                    string cityTo = reader["CityTo"].ToString();
+                                    int distance = int.Parse(reader["Distance"].ToString());
 
-                            distances[cityFrom][cityTo] = distance;
+                                    if (!distances.ContainsKey(cityFrom))
+                                    {
+                                        distances[cityFrom] = new Dictionary<string, int>();
+                                    }
+
+                                    distances[cityFrom][cityTo] = distance;
+                                }
+                            }
                         }
                     }
+                    return;
+                }
+                catch (SQLiteException ex) when (ex.Message.Contains("database is locked"))
+                {
+                    retryCount--;
+                    System.Threading.Thread.Sleep(200);
                 }
             }
+            MessageBox.Show("Unable to load distances after multiple attempts due to database being locked.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
@@ -140,21 +194,169 @@ namespace Pociag
 
         private double GetDiscountPercentageFromDatabase(string discountDescription)
         {
-            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            int retryCount = 5;
+            while (retryCount > 0)
+            {
+                try
+                {
+                    using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+                    {
+                        connection.Open();
+                        string query = "SELECT DiscountPercent FROM Discounts WHERE Description = @Description";
+                        using (var command = new SQLiteCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@Description", discountDescription);
+                            var result = command.ExecuteScalar();
+                            if (result != null)
+                            {
+                                return Convert.ToDouble(result);
+                            }
+                        }
+                    }
+                    return 0;
+                }
+                catch (SQLiteException ex) when (ex.Message.Contains("database is locked"))
+                {
+                    retryCount--;
+                    System.Threading.Thread.Sleep(200);
+                }
+            }
+            MessageBox.Show("Unable to retrieve discount percentage after multiple attempts due to database being locked.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return 0;
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            string startingCity = (string)Beginning.SelectedItem;
+            string finalCity = (string)Final.SelectedItem;
+            DateTime selectedDate = _Calendar.SelectedDate ?? DateTime.Now;
+            string selectedDiscount = (string)_Status.SelectedItem;
+
+            if (startingCity == finalCity)
+            {
+                MessageBox.Show("Starting city and final city cannot be the same!");
+                return;
+            }
+
+            SaveTravelToDatabase(startingCity, finalCity, selectedDate, selectedDiscount);
+            MessageBox.Show("Travel saved successfully!");
+        }
+
+        private void SaveTravelToDatabase(string startingCity, string finalCity, DateTime date, string discount)
+        {
+            int retryCount = 5;
+            while (retryCount > 0)
+            {
+                try
+                {
+                    using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+                    {
+                        connection.Open();
+                        using (SQLiteTransaction transaction = connection.BeginTransaction())
+                        {
+                            int userId = UserSession.UserId;
+                            int discountId = GetDiscountIdFromDatabase(discount);
+                            int cityFromId = GetCityIdFromDatabase(startingCity);
+                            int cityToId = GetCityIdFromDatabase(finalCity);
+                            int distance = GetDistanceFromDatabase(cityFromId, cityToId);
+                            double discountPercentage = GetDiscountPercentageFromDatabase(discount);
+                            double ticketPrice = CalculateTicketPrice(distance, discountPercentage);
+
+                            string query = "INSERT INTO Travels (UserId, CityFromId, CityToId, TravelDate, DiscountId, TicketPrice) VALUES (@UserId, @CityFromId, @CityToId, @TravelDate, @DiscountId, @TicketPrice)";
+                            using (var command = new SQLiteCommand(query, connection, transaction))
+                            {
+                                command.Parameters.AddWithValue("@UserId", userId);
+                                command.Parameters.AddWithValue("@CityFromId", cityFromId);
+                                command.Parameters.AddWithValue("@CityToId", cityToId);
+                                command.Parameters.AddWithValue("@TravelDate", date.ToString("yyyy-MM-dd"));
+                                command.Parameters.AddWithValue("@DiscountId", discountId);
+                                command.Parameters.AddWithValue("@TicketPrice", ticketPrice);
+
+                                command.ExecuteNonQuery();
+                            }
+                            transaction.Commit();
+                        }
+                    }
+                    return;
+                }
+                catch (SQLiteException ex) when (ex.Message.Contains("database is locked"))
+                {
+                    retryCount--;
+                    System.Threading.Thread.Sleep(200);
+                }
+                catch (SQLiteException ex)
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            MessageBox.Show("Operation failed after multiple attempts due to database being locked.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private int GetDiscountIdFromDatabase(string discountDescription)
+        {
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
             {
                 connection.Open();
-                string query = "SELECT DiscountPercent FROM Discounts WHERE Description = @Description";
-                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                string query = "SELECT Id FROM Discounts WHERE Description = @Description";
+                using (var command = new SQLiteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Description", discountDescription);
                     var result = command.ExecuteScalar();
                     if (result != null)
                     {
-                        return Convert.ToDouble(result);
+                        return Convert.ToInt32(result);
                     }
                 }
             }
-            return 0; 
+            return -1;
+        }
+
+        private int GetCityIdFromDatabase(string cityName)
+        {
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+                string query = "SELECT Id FROM Cities WHERE CityName = @CityName";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CityName", cityName);
+                    var result = command.ExecuteScalar();
+                    if (result != null)
+                    {
+                        return Convert.ToInt32(result);
+                    }
+                }
+            }
+            return -1;
+        }
+
+        private int GetDistanceFromDatabase(int cityFromId, int cityToId)
+        {
+            using (var connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+            {
+                connection.Open();
+                string query = "SELECT Distance FROM Distances WHERE CityFromId = @CityFromId AND CityToId = @CityToId";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CityFromId", cityFromId);
+                    command.Parameters.AddWithValue("@CityToId", cityToId);
+                    var result = command.ExecuteScalar();
+                    if (result != null)
+                    {
+                        return Convert.ToInt32(result);
+                    }
+                }
+            }
+            return 0; // Możesz zwrócić wartość domyślną lub rzucić wyjątek, jeśli nie ma odległości
+        }
+
+        private double CalculateTicketPrice(int distance, double discountPercentage)
+        {
+            double basePricePerKm = 0.5; // Ustalona cena bazowa za kilometr
+            double basePrice = distance * basePricePerKm;
+            double finalPrice = basePrice * (1 - discountPercentage / 100);
+            return finalPrice;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -174,94 +376,11 @@ namespace Pociag
             }
         }
 
-        private void LoadButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (File.Exists("Travels.json"))
-                {
-                    string jsonString = File.ReadAllText("Travels.json");
-                    List<Travel> travels = JsonSerializer.Deserialize<List<Travel>>(jsonString);
-
-                    if (travels != null && travels.Count > 0)
-                    {
-                        Travel lastTravel = travels[travels.Count - 1];
-                        Beginning.SelectedItem = lastTravel.Beginning;
-                        Final.SelectedItem = lastTravel.Final;
-                        _Calendar.SelectedDate = lastTravel.Date;
-                        _Status.SelectedItem = lastTravel.Status;
-
-                        MessageBox.Show("Last travel loaded successfully!");
-                    }
-                    else
-                    {
-                        MessageBox.Show("No saved travels found.");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No saved travels found.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error while loading travels: {ex.Message}");
-            }
-        }
-
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            string startingCity = (string)Beginning.SelectedItem;
-            string finalCity = (string)Final.SelectedItem;
-            DateTime selectedDate = _Calendar.SelectedDate ?? DateTime.Now;
-            string selectedDiscount = (string)_Status.SelectedItem;
-            if (startingCity == finalCity)
-            {
-                MessageBox.Show("Starting city and final city cannot be the same!");
-            }
-            Travel newTravel = new Travel
-            {
-                Beginning = startingCity,
-                Final = finalCity,
-                Date = selectedDate,
-                Status = selectedDiscount
-            };
-
-            List<Travel> travels = new List<Travel>();
-
-            if (File.Exists("Travels.json"))
-            {
-                try
-                {
-                    string jsonString = File.ReadAllText("Travels.json");
-                    travels = JsonSerializer.Deserialize<List<Travel>>(jsonString);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error while loading existing travels: {ex.Message}");
-                }
-            }
-
-            travels.Add(newTravel);
-
-            try
-            {
-                string jsonString = JsonSerializer.Serialize(travels);
-                File.WriteAllText("Travels.json", jsonString);
-                MessageBox.Show("Travel saved successfully!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error while saving travel: {ex.Message}");
-            }
-        }
-
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             Close();
         }
-
     }
 }
