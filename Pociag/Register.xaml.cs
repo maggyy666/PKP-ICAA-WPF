@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.SQLite;
 using System.IO;
-using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,6 +11,7 @@ namespace Pociag
     public partial class Register : Window
     {
         private readonly string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "database.db");
+        private int _userId = -1; // ID użytkownika dla trybu edycji
 
         public Register()
         {
@@ -21,10 +21,22 @@ namespace Pociag
             GetDiscountList();
             UpdateUsernameDisplay();
         }
+
+        // Konstruktor do trybu edycji
+        public Register(int userId, string username, string email, string password, int discountId) : this()
+        {
+            _userId = userId;
+            UsernameTextBox.Text = username;
+            EmailTextBox.Text = email;
+            PasswordBox.Password = password;
+            DiscountComboBox.SelectedValue = discountId;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateUsernameDisplay();
         }
+
         private void InitializeDatabase()
         {
             using (SQLiteConnection conn = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
@@ -85,20 +97,32 @@ namespace Pociag
                 SetMessage("All fields must be filled in", Colors.Red);
                 return;
             }
+
             if (!IsValidEmail(email))
             {
                 SetMessage("Invalid email format.", Colors.Red);
                 return;
             }
-            if (IsUsernameExists(username))
+
+            if (_userId == -1)
             {
-                SetMessage("Username already exists", Colors.Red);
-                return;
+                // Rejestracja nowego użytkownika
+                if (IsUsernameExists(username))
+                {
+                    SetMessage("Username already exists", Colors.Red);
+                    return;
+                }
+                else
+                {
+                    AddUserToDatabase(username, email, password, selectedDiscount);
+                    SetMessage("Registration completed successfully", Colors.Green);
+                }
             }
             else
             {
-                AddUserToDatabase(username, email, password, selectedDiscount);
-                SetMessage("Registration completed successfully", Colors.Green);
+                // Aktualizacja istniejącego użytkownika
+                UpdateUserInDatabase(_userId, username, email, password, selectedDiscount);
+                SetMessage("Profile updated successfully", Colors.Green);
             }
         }
 
@@ -116,6 +140,7 @@ namespace Pociag
                 }
             }
         }
+
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
@@ -183,7 +208,66 @@ namespace Pociag
             MessageBox.Show("Operation failed after multiple attempts due to database being locked.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        private void UpdateUserInDatabase(int userId, string username, string email, string password, string discountDescription)
+        {
+            int retryCount = 5;
+            while (retryCount > 0)
+            {
+                try
+                {
+                    using (SQLiteConnection connection = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
+                    {
+                        connection.Open();
 
+                        using (SQLiteTransaction transaction = connection.BeginTransaction())
+                        {
+                            int discountId;
+                            string discountQuery = "SELECT Id FROM Discounts WHERE Description = @Description";
+                            using (SQLiteCommand discountCommand = new SQLiteCommand(discountQuery, connection, transaction))
+                            {
+                                discountCommand.Parameters.AddWithValue("@Description", discountDescription);
+                                var result = discountCommand.ExecuteScalar();
+                                if (result != null)
+                                {
+                                    discountId = Convert.ToInt32(result);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Selected discount not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    return;
+                                }
+                            }
+
+                            string query = "UPDATE Users SET Username = @Username, Email = @Email, Password = @Password, DiscountId = @DiscountId WHERE Id = @Id";
+                            using (SQLiteCommand command = new SQLiteCommand(query, connection, transaction))
+                            {
+                                command.Parameters.AddWithValue("@Username", username);
+                                command.Parameters.AddWithValue("@Email", email);
+                                command.Parameters.AddWithValue("@Password", password);
+                                command.Parameters.AddWithValue("@DiscountId", discountId);
+                                command.Parameters.AddWithValue("@Id", userId);
+
+                                command.ExecuteNonQuery();
+                            }
+
+                            transaction.Commit(); // Zatwierdzamy transakcję
+                        }
+                    }
+                    return;
+                }
+                catch (SQLiteException ex) when (ex.Message.Contains("database is locked"))
+                {
+                    retryCount--;
+                    System.Threading.Thread.Sleep(200);
+                }
+                catch (SQLiteException ex)
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            MessageBox.Show("Operation failed after multiple attempts due to database being locked.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
 
         private void GetDiscountList()
         {
@@ -227,7 +311,8 @@ namespace Pociag
         {
             this.Close();
         }
-        private void BackButton_Click( object sender, RoutedEventArgs e)
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             Login loginWindow = new Login();
             loginWindow.Show();
@@ -295,6 +380,7 @@ namespace Pociag
                 passwordBox.Opacity = 0.5;
             }
         }
+
         private void UpdateUsernameDisplay()
         {
             if (UsernameTextBlock != null)
@@ -302,8 +388,5 @@ namespace Pociag
                 UsernameTextBlock.Text = UserSession.Username;
             }
         }
-
-
-
     }
 }
