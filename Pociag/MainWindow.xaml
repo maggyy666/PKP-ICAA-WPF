@@ -65,7 +65,10 @@
                        Grid.Column="7"
                        FontFamily="Font/#Dosis"
                        FontWeight="Medium" 
-                       FontSize="16" />
+                       FontSize="16"
+                       TextDecorations="Underline"
+                       MouseLeftButtonDown="UsernameTextBlock_MouseLeftButtonDown"
+                       />
 
             <Button Content="Exit"
                     Foreground="White"
