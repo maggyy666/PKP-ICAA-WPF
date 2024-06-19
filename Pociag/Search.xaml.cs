@@ -348,12 +348,12 @@ namespace Pociag
                     }
                 }
             }
-            return 0; // Możesz zwrócić wartość domyślną lub rzucić wyjątek, jeśli nie ma odległości
+            return 0; 
         }
 
         private double CalculateTicketPrice(int distance, double discountPercentage)
         {
-            double basePricePerKm = 0.5; // Ustalona cena bazowa za kilometr
+            double basePricePerKm = 0.5;  //Base km price
             double basePrice = distance * basePricePerKm;
             double finalPrice = basePrice * (1 - discountPercentage / 100);
             return finalPrice;
