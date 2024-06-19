@@ -12,7 +12,6 @@
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-        <!-- Styl dla zaokrąglonych przycisków -->
         <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="TextElement.FontFamily" Value="Font/#Dosis"/>
             <Setter Property="FontSize" Value="14"/>
@@ -65,7 +64,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Navbar -->
         <Grid Background="#0F0F2D" Height="50" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -108,7 +106,6 @@
             </StackPanel>
         </Grid>
 
-        <!-- Gradient tła -->
         <Border Grid.Row="1" Grid.RowSpan="3" Panel.ZIndex="-1">
             <Border.Background>
                 <LinearGradientBrush>
@@ -118,7 +115,6 @@
             </Border.Background>
         </Border>
 
-        <!-- Informacje o użytkowniku -->
         <StackPanel Grid.Row="1" Margin="20">
             <TextBlock Text="User Information"
                        FontFamily="Font/#Dosis"
