@@ -11,7 +11,7 @@ namespace Pociag
     public partial class Register : Window
     {
         private readonly string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "database.db");
-        private int _userId = -1; // ID użytkownika dla trybu edycji
+        private int _userId = -1; // ID user in EditMode
 
         public Register()
         {
@@ -22,7 +22,6 @@ namespace Pociag
             UpdateUsernameDisplay();
         }
 
-        // Konstruktor do trybu edycji
         public Register(int userId, string username, string email, string password, int discountId) : this()
         {
             _userId = userId;
@@ -106,7 +105,6 @@ namespace Pociag
 
             if (_userId == -1)
             {
-                // Rejestracja nowego użytkownika
                 if (IsUsernameExists(username))
                 {
                     SetMessage("Username already exists", Colors.Red);
@@ -120,7 +118,6 @@ namespace Pociag
             }
             else
             {
-                // Aktualizacja istniejącego użytkownika
                 UpdateUserInDatabase(_userId, username, email, password, selectedDiscount);
                 SetMessage("Profile updated successfully", Colors.Green);
             }
