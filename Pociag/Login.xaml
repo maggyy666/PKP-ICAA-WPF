@@ -27,7 +27,6 @@
                 Duration="0:0:0.2" />
         </Storyboard>
 
-        <!-- Styl dla zaokrąglonych przycisków -->
         <Style x:Key="StyledButton" TargetType="Button">
             <Setter Property="TextElement.FontFamily" Value="Font/#Dosis"/>
             <Setter Property="FontSize" Value="14"/>
@@ -52,7 +51,6 @@
                                 Height="{TemplateBinding Height}"
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="12">
-                            <!-- Zaokrąglenie rogów -->
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"/>
                         </Border>
@@ -77,7 +75,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Dodajemy wiersz na navbar -->
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -85,15 +82,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Navbar -->
         <Grid Background="#0F0F2D" Height="50" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <!-- Kolumna na logo -->
                 <ColumnDefinition Width="*"/>
-                <!-- Kolumna wypełniająca -->
                 <ColumnDefinition Width="Auto"/>
-                <!-- Kolumna na przyciski -->
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0" Margin="10,0">
@@ -198,7 +191,6 @@
                     Opacity="0.5"/>
         </StackPanel>
 
-        <!-- TextBlock na komunikaty -->
         <TextBlock x:Name="MessageTextBlock"
                    Grid.Row="3"
                    FontFamily="Font/#Dosis"
