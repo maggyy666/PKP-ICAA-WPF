@@ -42,6 +42,7 @@ namespace Pociag
             {
                 conn.Open();
 
+                // Sprawdzanie czy tabela 'Discounts' istnieje
                 string checkDiscountsTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='Discounts';";
                 using (SQLiteCommand checkDiscountsCmd = new SQLiteCommand(checkDiscountsTableQuery, conn))
                 {
@@ -49,10 +50,10 @@ namespace Pociag
                     if (result == null)
                     {
                         string createDiscountsTableQuery = @"
-                            CREATE TABLE Discounts (
-                                Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                Description TEXT NOT NULL
-                            )";
+                CREATE TABLE Discounts (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Description TEXT NOT NULL
+                )";
                         using (SQLiteCommand createDiscountsCmd = new SQLiteCommand(createDiscountsTableQuery, conn))
                         {
                             createDiscountsCmd.ExecuteNonQuery();
@@ -60,6 +61,7 @@ namespace Pociag
                     }
                 }
 
+                // Sprawdzanie czy tabela 'Users' istnieje
                 string checkUsersTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='Users';";
                 using (SQLiteCommand checkUsersCmd = new SQLiteCommand(checkUsersTableQuery, conn))
                 {
@@ -67,14 +69,14 @@ namespace Pociag
                     if (result == null)
                     {
                         string createUsersTableQuery = @"
-                            CREATE TABLE Users (
-                                Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                Username TEXT NOT NULL,
-                                Email TEXT NOT NULL,
-                                Password TEXT NOT NULL,
-                                DiscountId INTEGER NOT NULL,
-                                FOREIGN KEY (DiscountId) REFERENCES Discounts(Id)
-                            )";
+                CREATE TABLE Users (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Username TEXT NOT NULL,
+                    Email TEXT NOT NULL,
+                    Password TEXT NOT NULL,
+                    DiscountId INTEGER NOT NULL,
+                    FOREIGN KEY (DiscountId) REFERENCES Discounts(Id)
+                )";
                         using (SQLiteCommand createUsersCmd = new SQLiteCommand(createUsersTableQuery, conn))
                         {
                             createUsersCmd.ExecuteNonQuery();
@@ -83,6 +85,8 @@ namespace Pociag
                 }
             }
         }
+
+
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
